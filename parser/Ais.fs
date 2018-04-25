@@ -20,7 +20,7 @@ type CommonNavigationBlockResult = {
     Repeat: int;
     Mmsi: int;
     Status: string;
-    RateOfTurn: int;
+    RateOfTurn: float;
     SpeedOverGround: int;
     PositionAccuracy: int;
     Longitude: float;
@@ -60,7 +60,7 @@ module Ais =
         Repeat = 0;
         Mmsi = 0;
         Status = "Not defined";
-        RateOfTurn = 0;
+        RateOfTurn = 0.0;
         SpeedOverGround = 0;
         PositionAccuracy = 0;
         Longitude = 181.0;
@@ -194,9 +194,14 @@ module Ais =
             | 14 -> "AIS-SART is active"
             | _ -> "Not defined"
             )
-    let parseRateOfTurn =
+    let parseInt8 =
         parseBits 8
-        |>> (fun x -> Convert.ToInt32(x, 2))
+        |>> (fun x -> Convert.ToByte(x, 2))
+
+    let parseRateOfTurn =
+        let square x = x * x
+        parseInt8 |>> fun (x) -> square((float) x / 4.733)
+
     let parseSpeedOverGround =
         parseBits 10
         |>> (fun x -> Convert.ToInt32(x, 2))
@@ -231,33 +236,24 @@ module Ais =
             )
 
     let toAscii bits =
-        printfn "bits: %s" bits
         match bits with
-        | "000000" -> "@"
-        | "000001" -> "A"
-        | "000010" -> "B"
-        | "000011" -> "C"
-        | "000100" -> "D"
-        | "000101" -> "E"
-        | "000110" -> "F"
-        | "000111" -> "G"
-        | "001000" -> "H"
-        | "001001" -> "I"
-        | "001010" -> "J"
-        | "001011" -> "K"
-        | "001100" -> "L"
-        | "001101" -> "M"
-        | "001110" -> "N"
-        | "001111" -> "O"
-        | "010000" -> "P"
-        | "010001" -> "Q"
-        | "010010" -> "R"
-        | "010011" -> "S"
-        | "010100" -> "T"
-        | "010101" -> "U"
-        | "010110" -> "V"
-        | "010111" -> "W"
-        | "100000" -> "P"
+        | "000000" -> "@" | "010000" -> "P" | "100000" -> " "
+        | "000001" -> "A" | "010001" -> "Q"
+        | "000010" -> "B" | "010010" -> "R"
+        | "000011" -> "C" | "010011" -> "S"
+        | "000100" -> "D" | "010100" -> "T"
+        | "000101" -> "E" | "010101" -> "U"
+        | "000110" -> "F" | "010110" -> "V"
+        | "000111" -> "G" | "010111" -> "W"
+        | "001000" -> "H" | "011000" -> "X"
+        | "001001" -> "I" | "011001" -> "Y"
+        | "001010" -> "J" | "011010" -> "Z"
+        | "001011" -> "K" | "011011" -> "]"
+        | "001100" -> "L" | "011100" -> "\\"
+        | "001101" -> "M" | "011101" -> "["
+        | "001110" -> "N" | "011110" -> "^"
+        | "001111" -> "O" | "011111" -> "_"
+
         | _ -> "?"
 
     let parseAscii count =
@@ -269,7 +265,7 @@ module Ais =
         let ps =
             Seq.init chars (fun _ -> parseBits 6 |>> toAscii)
             |> Seq.reduce reducer
-        ps
+        ps |>> (fun (x: string) -> x.Trim(' '))
 
     let parseCommonNavigationBlock: Parser<_> =
         (parseType 1 <|> parseType 2 <|> parseType 3)
@@ -307,8 +303,8 @@ module Ais =
         |>> (fun (x, y) -> { x with ImoNumber = y })
         .>>. parseAscii 30
         |>> (fun (x, y) -> { x with CallSign = y })
-        //.>>. parseAscii 120
-        //|>> (fun (x, y) -> { x with VesselName = y })
+        .>>. parseAscii 120
+        |>> (fun (x, y) -> { x with VesselName = y })
 
         |>> (fun (x) -> (Type5) x)
 

@@ -34,7 +34,7 @@ type TestClass () =
 
         isSuccess(result)|> should be False
 
-    //[<Test>]
+    [<Test>]
     member this.Bsvdm () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16"
