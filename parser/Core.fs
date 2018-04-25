@@ -15,7 +15,7 @@ module Core =
 
     let parseUint2 =
         parseBits 2
-        |>> (fun x -> Convert.ToInt32(x, 2))
+        |>> (fun x -> Convert.ToByte(x, 2))
 
     let parseUint30 =
         parseBits 30

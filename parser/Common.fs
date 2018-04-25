@@ -4,8 +4,8 @@ open System
 open FParsec
 
 type CommonNavigationBlockResult = {
-    Type: int;
-    Repeat: int;
+    Type: byte;
+    Repeat: byte;
     Mmsi: int;
     Status: string;
     RateOfTurn: float;
@@ -17,10 +17,10 @@ type CommonNavigationBlockResult = {
 }
 
 type StaticAndVoyageRelatedData = {
-    Type: int;
-    Repeat: int;
+    Type: byte;
+    Repeat: byte;
     Mmsi: int;
-    Version: int;
+    Version: byte;
     ImoNumber: int;
     CallSign: string;
     VesselName: string;
@@ -46,7 +46,7 @@ module Common =
     let parseType (num:int) =
         let bitPattern = Convert.ToString (num, 2) |> int
         sprintf "%06d" bitPattern |> pstring
-        |>> (fun x -> Convert.ToInt32(x, 2)) // Map back to int
+        |>> (fun x -> Convert.ToByte(x, 2)) // Map back to byte
 
     let parseEpfd =
         Core.parseBits 4

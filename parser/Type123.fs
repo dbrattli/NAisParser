@@ -5,8 +5,8 @@ open FParsec
 
 module Type123 =
     let defaultCommonNavigationBlockResult : CommonNavigationBlockResult = {
-        Type = 0;
-        Repeat = 0;
+        Type = 0uy;
+        Repeat = 0uy;
         Mmsi = 0;
         Status = "Not defined";
         RateOfTurn = 0.0;
@@ -78,4 +78,4 @@ module Type123 =
         |>> (fun (x, y) -> { x with Latitude = y })
         .>>. Common.parseEpfd
         |>> (fun (x, y) -> { x with Epfd = y })
-        |>> (fun (x) -> (Type123) x)
+        |>> Type123

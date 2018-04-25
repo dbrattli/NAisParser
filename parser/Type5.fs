@@ -5,10 +5,10 @@ open FParsec
 
 module Type5 =
     let defaultStaticAndVoyageRelatedData : StaticAndVoyageRelatedData = {
-        Type = 0;
-        Repeat = 0;
+        Type = 0uy;
+        Repeat = 0uy;
         Mmsi = 0;
-        Version = 0;
+        Version = 0uy;
         ImoNumber = 0;
         CallSign = "";
         VesselName = "";

@@ -8,7 +8,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.fs" />
+    <Compile Include="AisTests.fs" />
+    <Compile Include="Type123Tests.fs" />
+    <Compile Include="Type5Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
