@@ -28,18 +28,18 @@ module Type5 =
 
     let parseStaticAndVoyageRelatedData: Parser<MessageType> =
         Common.parseType 5
-        |>> (fun (x) -> { defaultStaticAndVoyageRelatedData with Type = x })
+        |>> fun x -> { defaultStaticAndVoyageRelatedData with Type = x }
         .>>. Core.parseUint2
-        |>> (fun (x, y) -> { x with Repeat = y })
+        |>> fun (x, y) -> { x with Repeat = y }
         .>>. Core.parseUint30
-        |>> (fun (x, y) -> { x with Mmsi = y })
+        |>> fun (x, y) -> { x with Mmsi = y }
         .>>. Core.parseUint2
-        |>> (fun (x, y) -> { x with Version = y })
+        |>> fun (x, y) -> { x with Version = y }
         .>>. Core.parseUint30
-        |>> (fun (x, y) -> { x with ImoNumber = y })
+        |>> fun (x, y) -> { x with ImoNumber = y }
         .>>. Core.parseAscii 30
-        |>> (fun (x, y) -> { x with CallSign = y })
+        |>> fun (x, y) -> { x with CallSign = y }
         .>>. Core.parseAscii 120
-        |>> (fun (x, y) -> { x with VesselName = y })
+        |>> fun (x, y) -> { x with VesselName = y }
 
-        |>> (fun (x) -> (Type5) x)
+        |>> Type5

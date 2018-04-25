@@ -59,23 +59,41 @@ module Type123 =
 
     let parseCommonNavigationBlock: Parser<_> =
         (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
-        |>> (fun (x) -> { defaultCommonNavigationBlockResult with Type = x })
+        |>> fun x -> { defaultCommonNavigationBlockResult with Type = x }
         .>>. Core.parseUint2
-        |>> (fun (x, y) -> { x with Repeat = y })
+        |>> fun (x, y) -> { x with Repeat = y }
         .>>. Core.parseUint30
-        |>> (fun (x, y) -> { x with Mmsi = y })
+        |>> fun (x, y) -> { x with Mmsi = y }
         .>>. parseStatus
-        |>> (fun (x, y) -> { x with Status = y })
+        |>> fun (x, y) -> { x with Status = y }
         .>>. parseRateOfTurn
-        |>> (fun (x, y) -> { x with RateOfTurn = y })
+        |>> fun (x, y) -> { x with RateOfTurn = y }
         .>>. parseSpeedOverGround
-        |>> (fun (x, y) -> { x with SpeedOverGround = y })
+        |>> fun (x, y) -> { x with SpeedOverGround = y }
         .>>. parsePositionAccuracy
-        |>> (fun (x, y) -> { x with PositionAccuracy = y })
+        |>> fun (x, y) -> { x with PositionAccuracy = y }
         .>>. parseLongitude
-        |>> (fun (x, y) -> { x with Longitude = y })
+        |>> fun (x, y) -> { x with Longitude = y }
         .>>. parseLatitude
-        |>> (fun (x, y) -> { x with Latitude = y })
+        |>> fun (x, y) -> { x with Latitude = y }
         .>>. Common.parseEpfd
-        |>> (fun (x, y) -> { x with Epfd = y })
+        |>> fun (x, y) -> { x with Epfd = y }
+
         |>> Type123
+
+
+(*     let parseCommonNavigationBlock': Parser<_> =
+        (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
+        >>= fun _type -> Core.parseUint2
+        >>= fun _repeat -> Core.parseUint30
+        >>= fun _mssi -> preturn {
+            Type = _type
+            Repeat = _repeat
+            Mssi = _mssi
+        }
+
+    parsec {
+        let! _type
+        let! _repeat =
+    } *)
+

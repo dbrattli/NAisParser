@@ -96,15 +96,15 @@ module Ais =
 
     let aisParser : Parser<_>=
         parseVdm
-        |>> (fun (x) -> { defaultAisResult with Vdm = x })
+        |>> fun x -> { defaultAisResult with Vdm = x }
         .>>. parseNumber
-        |>> (fun (x, y) -> { x with Number = y })
+        |>> fun (x, y) -> { x with Number = y }
         .>>. parseCount
-        |>> (fun (x, y) -> { x with Count = y })
+        |>> fun (x, y) -> { x with Count = y }
         .>>. parseSeq
-        |>> (fun (x, y) -> { x with Seq = y })
+        |>> fun (x, y) -> { x with Seq = y }
         .>>. parseChannel
-        |>> (fun (x, y) -> { x with Channel = y })
+        |>> fun (x, y) -> { x with Channel = y }
         .>>. parsePayload
-        |>> (fun (x, y) -> { x with Payload = y })
+        |>> fun (x, y) -> { x with Payload = y }
         .>> parsePadBits
