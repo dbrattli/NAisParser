@@ -46,7 +46,7 @@ module Common =
     let parseType (num:int) =
         let bitPattern = Convert.ToString (num, 2) |> int
         sprintf "%06d" bitPattern |> pstring
-        |>> (fun x -> Convert.ToByte(x, 2)) // Map back to byte
+        |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
 
     let parseEpfd =
         Core.parseBits 4

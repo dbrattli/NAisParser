@@ -48,7 +48,7 @@ module Ais =
 
     let parseVdm : Parser<_> =
         vdms .>>. pstring "VDM"
-        |>> (fun (x, y) -> x + y) // Concat e.g "!AI" with "VDM"
+        |>> fun (x, y) -> x + y // Concat e.g "!AI" with "VDM"
 
     let comma : Parser<_> = pchar ','
     let parseCount : Parser<_> = comma >>. puint8

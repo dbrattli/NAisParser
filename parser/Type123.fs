@@ -31,13 +31,13 @@ module Type123 =
 
     let parseLongitude =
         Core.parseBits 28
-        |>> (fun x -> Convert.ToInt32(x, 2))
-        |>> (fun x -> float(x) / 600000.0 )
+        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> float(x) / 600000.0
 
     let parseLatitude =
         Core.parseBits 27
-        |>> (fun x -> Convert.ToInt32(x, 2))
-        |>> (fun x -> float(x) / 600000.0 )
+        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> float(x) / 600000.0
 
     let parseStatus =
         Core.parseBits 4
