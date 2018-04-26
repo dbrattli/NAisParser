@@ -13,7 +13,7 @@ type CommonNavigationBlockResult = {
     PositionAccuracy: int;
     Longitude: float;
     Latitude: float;
-    Epfd: string;
+    CourseOverGround: float;
 }
 
 type StaticAndVoyageRelatedData = {

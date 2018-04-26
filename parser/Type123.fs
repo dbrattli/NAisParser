@@ -3,7 +3,23 @@ namespace AisParser
 open System
 open FParsec
 
+open AisParser.Core
+
 module Type123 =
+    let commonNavigationBlockResult typ repeat mmsi status turn speed accuracy lon lat course : CommonNavigationBlockResult=
+        {
+            Type = typ;
+            Repeat = repeat;
+            Mmsi = mmsi;
+            Status = status;
+            RateOfTurn = turn;
+            SpeedOverGround = speed;
+            PositionAccuracy = accuracy;
+            Longitude = lat;
+            Latitude = lon;
+            CourseOverGround = course;
+        }
+
     let defaultCommonNavigationBlockResult : CommonNavigationBlockResult = {
         Type = 0uy;
         Repeat = 0uy;
@@ -14,8 +30,12 @@ module Type123 =
         PositionAccuracy = 0;
         Longitude = 181.0;
         Latitude = 91.0;
-        Epfd = "Unknown"
+        CourseOverGround = 0.0;
     }
+
+    let parseRepeat = Core.parseUint2
+
+    let parseMmsi = Core.parseUint30
 
     let parseRateOfTurn =
         let square x = x * x
@@ -39,6 +59,11 @@ module Type123 =
         |>> fun x -> Convert.ToInt32(x, 2)
         |>> fun x -> float(x) / 600000.0
 
+    let parseCourseOverGround =
+        Core.parseBits 12
+        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> float(x) / 0.1
+
     let parseStatus =
         Core.parseBits 4
         |>> (fun x ->
@@ -60,9 +85,9 @@ module Type123 =
     let parseCommonNavigationBlock: Parser<_> =
         (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
         |>> fun x -> { defaultCommonNavigationBlockResult with Type = x }
-        .>>. Core.parseUint2
+        .>>. parseRepeat
         |>> fun (x, y) -> { x with Repeat = y }
-        .>>. Core.parseUint30
+        .>>. parseMmsi
         |>> fun (x, y) -> { x with Mmsi = y }
         .>>. parseStatus
         |>> fun (x, y) -> { x with Status = y }
@@ -76,24 +101,21 @@ module Type123 =
         |>> fun (x, y) -> { x with Longitude = y }
         .>>. parseLatitude
         |>> fun (x, y) -> { x with Latitude = y }
-        .>>. Common.parseEpfd
-        |>> fun (x, y) -> { x with Epfd = y }
+        .>>. parseCourseOverGround
+        |>> fun (x, y) -> { x with CourseOverGround = y }
 
         |>> Type123
 
-
-(*     let parseCommonNavigationBlock': Parser<_> =
-        (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
-        >>= fun _type -> Core.parseUint2
-        >>= fun _repeat -> Core.parseUint30
-        >>= fun _mssi -> preturn {
-            Type = _type
-            Repeat = _repeat
-            Mssi = _mssi
-        }
-
-    parsec {
-        let! _type
-        let! _repeat =
-    } *)
-
+    let parseCommonNavigationBlock': Parser<_> =
+        preturn commonNavigationBlockResult
+        <*> (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
+        <*> parseRepeat
+        <*> parseMmsi
+        <*> parseStatus
+        <*> parseRateOfTurn
+        <*> parseSpeedOverGround
+        <*> parsePositionAccuracy
+        <*> parseLongitude
+        <*> parseLatitude
+        <*> parseCourseOverGround
+        |>> Type123

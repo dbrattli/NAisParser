@@ -81,7 +81,7 @@ module Ais =
 
     let parseFields : Parser<MessageType> =
         let typeParser =
-            Type123.parseCommonNavigationBlock <|>
+            Type123.parseCommonNavigationBlock' <|>
             Type5.parseStaticAndVoyageRelatedData
         typeParser
 
