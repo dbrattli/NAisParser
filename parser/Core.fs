@@ -57,8 +57,7 @@ module Core =
 
         ps |>> fun x -> x.Trim(' ')
 
-    /// ap :: Monad m => m (a -> b) -> m a -> m b
-    let inline ap f a = f >>= fun f' -> a >>= fun a' -> preturn (f' a')
+    /// apply :: Parser p => p (a -> b) -> p a -> p b
+    let inline apply pf pa = pf >>= fun f' -> pa >>= fun a' -> preturn (f' a')
 
-    /// (<*>) :: Applicative f => f (a -> b) -> f a -> f b
-    let inline (<*>) f a = ap f a
+    let inline (<*>) f a = apply f a
