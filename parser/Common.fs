@@ -24,8 +24,10 @@ type StaticAndVoyageRelatedData = {
     ImoNumber: int;
     CallSign: string;
     VesselName: string;
+    (*
     ShipType: string;
     ToBow: int;
+    ToStern: int;
     ToPort: int;
     ToStarBoard: int;
     Epfd: string;
@@ -36,17 +38,22 @@ type StaticAndVoyageRelatedData = {
     Draught: int;
     Destination: string;
     Dte: bool;
+    *)
 }
 
 type MessageType =
-| Type123 of CommonNavigationBlockResult
-| Type5 of StaticAndVoyageRelatedData
+    | Type123 of CommonNavigationBlockResult
+    | Type5 of StaticAndVoyageRelatedData
 
 module Common =
     let parseType (num:int) =
         let bitPattern = Convert.ToString (num, 2) |> int
         sprintf "%06d" bitPattern |> pstring
         |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
+
+    let parseRepeat = Core.parseUint2
+
+    let parseMmsi = Core.parseUint30
 
     let parseEpfd =
         Core.parseBits 4

@@ -6,7 +6,8 @@ open FParsec
 open AisParser.Core
 
 module Type123 =
-    let commonNavigationBlockResult typ repeat mmsi status turn speed accuracy lon lat course : CommonNavigationBlockResult=
+    let commonNavigationBlockResult typ repeat mmsi status turn
+        speed accuracy lon lat course : CommonNavigationBlockResult =
         {
             Type = typ;
             Repeat = repeat;
@@ -32,10 +33,6 @@ module Type123 =
         Latitude = 91.0;
         CourseOverGround = 0.0;
     }
-
-    let parseRepeat = Core.parseUint2
-
-    let parseMmsi = Core.parseUint30
 
     let parseRateOfTurn =
         let square x = x * x
@@ -81,13 +78,12 @@ module Type123 =
             | 14 -> "AIS-SART is active"
             | _ -> "Not defined"
             )
-
     let parseCommonNavigationBlock: Parser<_> =
         (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
         |>> fun x -> { defaultCommonNavigationBlockResult with Type = x }
-        .>>. parseRepeat
+        .>>. Common.parseRepeat
         |>> fun (x, y) -> { x with Repeat = y }
-        .>>. parseMmsi
+        .>>. Common.parseMmsi
         |>> fun (x, y) -> { x with Mmsi = y }
         .>>. parseStatus
         |>> fun (x, y) -> { x with Status = y }
@@ -104,13 +100,11 @@ module Type123 =
         .>>. parseCourseOverGround
         |>> fun (x, y) -> { x with CourseOverGround = y }
 
-        |>> Type123
-
-    let parseCommonNavigationBlock': Parser<_> =
+    let parseCommonNavigationBlock'': Parser<_> =
         preturn commonNavigationBlockResult
         <*> (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
-        <*> parseRepeat
-        <*> parseMmsi
+        <*> Common.parseRepeat
+        <*> Common.parseMmsi
         <*> parseStatus
         <*> parseRateOfTurn
         <*> parseSpeedOverGround

@@ -3,3 +3,4 @@ parser/obj
 tests/bin
 tests/obj
 .vs
+coverage.info

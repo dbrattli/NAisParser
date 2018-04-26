@@ -2,6 +2,7 @@ namespace AisParser
 
 open System
 open FParsec
+open AisParser.Core
 
 type AisResult = {
     Vdm: string;
@@ -13,6 +14,16 @@ type AisResult = {
 }
 
 module Ais =
+    let aisResult vdm number count seq channel payload : AisResult =
+        {
+            Vdm = vdm;
+            Number = number;
+            Count = count;
+            Seq = seq;
+            Channel = channel;
+            Payload = payload;
+        }
+
     let defaultAisResult : AisResult = {
         Vdm = "";
         Number = 0uy;
@@ -81,7 +92,7 @@ module Ais =
 
     let parseFields : Parser<MessageType> =
         let typeParser =
-            Type123.parseCommonNavigationBlock' <|>
+            Type123.parseCommonNavigationBlock'' <|>
             Type5.parseStaticAndVoyageRelatedData
         typeParser
 
@@ -94,17 +105,12 @@ module Ais =
         // Transform to binary string
         |>> charListToBinaryString
 
-    let aisParser : Parser<_>=
-        parseVdm
-        |>> fun x -> { defaultAisResult with Vdm = x }
-        .>>. parseNumber
-        |>> fun (x, y) -> { x with Number = y }
-        .>>. parseCount
-        |>> fun (x, y) -> { x with Count = y }
-        .>>. parseSeq
-        |>> fun (x, y) -> { x with Seq = y }
-        .>>. parseChannel
-        |>> fun (x, y) -> { x with Channel = y }
-        .>>. parsePayload
-        |>> fun (x, y) -> { x with Payload = y }
-        .>> parsePadBits
+    let aisParser : Parser<_> =
+        preturn aisResult
+        <*> parseVdm
+        <*> parseNumber
+        <*> parseCount
+        <*> parseSeq
+        <*> parseChannel
+        <*> parsePayload
+        <*  parsePadBits
