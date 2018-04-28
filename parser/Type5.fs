@@ -6,8 +6,8 @@ open AisParser.Core
 
 module Type5 =
     let staticAndVoyageRelatedData type' repeat mmsi version imo callsign
-        shipname
-        //shiptype tobow tostern toport tostarboard epfd month
+        shipname shiptype
+        // tobow tostern toport tostarboard epfd month
         //day hour minute draught destination dte
         : StaticAndVoyageRelatedData =
         {
@@ -18,8 +18,8 @@ module Type5 =
             ImoNumber = imo;
             CallSign = callsign;
             VesselName = shipname;
-            (*
             ShipType = shiptype;
+            (*
             ToBow = tobow;
             ToStern =tostern;
             ToPort = toport;
@@ -41,8 +41,8 @@ module Type5 =
         ImoNumber = 0;
         CallSign = "";
         VesselName = "";
+        ShipType = ShipType.NotAvailable;
         (*
-        ShipType = "";
         ToBow = 0;
         ToStern = 0;
         ToPort = 0;
@@ -61,9 +61,17 @@ module Type5 =
     let parseVersion =
         Core.parseBits 2
         |>> fun x -> Convert.ToByte(x, 2)
+
     let parseImoNumber =
         Core.parseBits 30
         |>> fun x -> Convert.ToInt32(x, 2)
+
+    let parseShipType =
+        Core.parseBits 8
+        |>> fun x ->
+            let value = Convert.ToInt32(x, 2)
+            printfn "Result: %d" value
+            enum<ShipType>(value)
 
     let parseCallSign = Core.parseAscii 42
 
@@ -78,5 +86,6 @@ module Type5 =
         <*> parseImoNumber
         <*> parseCallSign
         <*> parseVesselName
+        <*> parseShipType
 
         |>> Type5

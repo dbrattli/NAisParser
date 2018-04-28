@@ -32,7 +32,7 @@ type TestClass () =
         let input = "!ABVDM"
         let result = run parseVdm input
 
-        isSuccess(result)|> should be False
+        isSuccess(result)|> should be True
 
     [<Test>]
     member this.BsvdmSequence1 () =

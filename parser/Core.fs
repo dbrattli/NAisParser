@@ -66,5 +66,4 @@ module Core =
 
     let inline ( *>) x y = x >>. y
 
-    /// (<*) :: Applicative f => f a -> f b -> f a
-    let inline ( <*) x y = x .>> y
+    let inline (<* ) x y = x .>> y

@@ -4,16 +4,21 @@ open System
 open FParsec
 open AisParser.Core
 
+type TalkerId = | AB | AD| AI | AN | AR | AS | AT | AX | BS | SA
+
+type Channel = | A | B
+
 type AisResult = {
-    Vdm: string;
+    Vdm: TalkerId;
     Number: uint8;
     Count: uint8;
     Seq: uint8 option;
-    Channel: char;
+    Channel: Channel;
     Payload: string;
 }
 
 module Ais =
+    // AisResult constructor to enable currying
     let aisResult vdm number count seq channel payload : AisResult =
         {
             Vdm = vdm;
@@ -25,11 +30,11 @@ module Ais =
         }
 
     let defaultAisResult : AisResult = {
-        Vdm = "";
+        Vdm = TalkerId.AB;
         Number = 0uy;
         Count = 0uy;
         Seq = Some 0uy;
-        Channel = '0';
+        Channel = Channel.A;
         Payload = "";
     }
 
@@ -53,22 +58,35 @@ module Ais =
             | Failure (a, b, c) -> Failure(a, b, c)
         result
 
-    let vdms =
-            pstring "!BS" // Base AIS station
-        <|> pstring "!AI" // Mobile AIS station
-
     let parseVdm : Parser<_> =
-        vdms .>>. pstring "VDM"
-        |>> fun (x, y) -> x + y // Concat e.g "!AI" with "VDM"
+        pchar '!' >>. anyString 2 .>> pstring "VDM"
+        |>> fun x ->
+            match x with
+            | "AB" -> TalkerId.AB
+            | "AD" -> TalkerId.AD
+            | "AI" -> TalkerId.AI
+            | "AN" -> TalkerId.AN
+            | "AR" -> TalkerId.AR
+            | "AS" -> TalkerId.AS
+            | "AT" -> TalkerId.AT
+            | "AX" -> TalkerId.AX
+            | "BS" -> TalkerId.BS
+            | "SA" -> TalkerId.SA
+            | _ -> TalkerId.AB
 
     let comma : Parser<_> = pchar ','
     let parseCount : Parser<_> = comma >>. puint8
     let parseNumber : Parser<_> = comma >>. puint8
     let parseSeq : Parser<_> = comma >>. opt puint8
-    let parseChannel : Parser<_> = comma >>. anyOf ['A';'B';'0';'1']
+    let parseChannel : Parser<_> =
+        comma >>. anyOf ['A';'B';'0';'1']
+        |>> fun x ->
+            match x with
+            | 'B' | '1' -> Channel.B
+            | _ -> Channel.A
 
     let parsePadBits = comma >>. puint8
-    // define the function
+
     let toPaddedBinary (i: int) =
         Convert.ToString (i, 2) |> int |> sprintf "%06d"
 
@@ -92,7 +110,7 @@ module Ais =
 
     let parseFields : Parser<MessageType> =
         let typeParser =
-            Type123.parseCommonNavigationBlock'' <|>
+            Type123.parseCommonNavigationBlock <|>
             Type5.parseStaticAndVoyageRelatedData
         typeParser
 
