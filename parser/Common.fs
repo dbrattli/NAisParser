@@ -91,12 +91,11 @@ type StaticAndVoyageRelatedData = {
     CallSign: string;
     VesselName: string;
     ShipType: ShipType;
-    (*
     ToBow: int;
     ToStern: int;
     ToPort: int;
     ToStarBoard: int;
-    Epfd: string;
+    Epfd: EpdfFixType;
     Month: int;
     Day: int;
     Hour: int;
@@ -104,14 +103,12 @@ type StaticAndVoyageRelatedData = {
     Draught: int;
     Destination: string;
     Dte: bool;
-    *)
 }
 
 type BaseStationReport = {
     Type: byte;
     Repeat: byte;
     Mmsi: int;
-
 }
 
 type MessageType =

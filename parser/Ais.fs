@@ -62,16 +62,11 @@ module Ais =
         pchar '!' >>. anyString 2 .>> pstring "VDM"
         |>> fun x ->
             match x with
-            | "AB" -> TalkerId.AB
-            | "AD" -> TalkerId.AD
-            | "AI" -> TalkerId.AI
-            | "AN" -> TalkerId.AN
-            | "AR" -> TalkerId.AR
-            | "AS" -> TalkerId.AS
-            | "AT" -> TalkerId.AT
-            | "AX" -> TalkerId.AX
-            | "BS" -> TalkerId.BS
-            | "SA" -> TalkerId.SA
+            | "AB" -> TalkerId.AB | "AD" -> TalkerId.AD
+            | "AI" -> TalkerId.AI | "AN" -> TalkerId.AN
+            | "AR" -> TalkerId.AR | "AS" -> TalkerId.AS
+            | "AT" -> TalkerId.AT | "AX" -> TalkerId.AX
+            | "BS" -> TalkerId.BS | "SA" -> TalkerId.SA
             | _ -> TalkerId.AB
 
     let comma : Parser<_> = pchar ','
