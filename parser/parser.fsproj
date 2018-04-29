@@ -10,6 +10,7 @@
     <Compile Include="Type123.fs" />
     <Compile Include="Type5.fs" />
     <Compile Include="Ais.fs" />
+    <Compile Include="Api.fs" />
   </ItemGroup>
 
   <ItemGroup>
