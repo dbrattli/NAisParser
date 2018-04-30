@@ -5,12 +5,13 @@ open System.Collections.Generic
 
 open FParsec
 open AisParser.Ais
+open System.Runtime.InteropServices //for OutAttribute
 
 
 type public Parser() =
     let fragments = new List<ParserResult<AisResult, unit>>()
 
-    member public this.TryParse(input: String, result : byref<AisResult>) : bool =
+    member public this.TryParse(input: String, [<Out>] result : AisResult byref) : bool =
         let res = run aisParser input
 
         match res with
@@ -30,7 +31,7 @@ type public Parser() =
         | Failure (a, b, c)  ->
             raise (System.ArgumentException(a))
 
-    member public this.TryParse(input: AisResult, result : byref<CommonNavigationBlockResult>) : bool =
+    member public this.TryParse(input: AisResult, [<Out>] result : CommonNavigationBlockResult byref) : bool =
         let res = run parseFields input.Payload;
         match res with
         | Success (message, state, pos) ->
