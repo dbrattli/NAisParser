@@ -29,3 +29,29 @@ type public Parser() =
                     raise (System.ArgumentException(a))
         | Failure (a, b, c)  ->
             raise (System.ArgumentException(a))
+
+    member public this.TryParse(input: AisResult, result : byref<CommonNavigationBlockResult>) : bool =
+        let res = run parseFields input.Payload;
+        match res with
+        | Success (message, state, pos) ->
+            match message with
+            | Type123 cnb ->
+                result <- cnb
+                true
+            | _ ->
+                false
+        | Failure (a, b, c)  ->
+            raise (System.ArgumentException(a))
+
+    member public this.TryParse(input: AisResult, result : byref<StaticAndVoyageRelatedData>) : bool =
+        let res = run parseFields input.Payload;
+        match res with
+        | Success (message, state, pos) ->
+            match message with
+            | Type5 cnb ->
+                result <- cnb
+                true
+            | _ ->
+                false
+        | Failure (a, b, c)  ->
+            raise (System.ArgumentException(a))

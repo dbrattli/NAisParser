@@ -4,7 +4,7 @@ open System
 open FParsec
 open AisParser.Core
 
-type TalkerId = | AB | AD| AI | AN | AR | AS | AT | AX | BS | SA
+type TalkerId = | AB = 0 | AD = 1 | AI = 2 | AN = 3 | AR = 4 | AS = 5 | AT = 6 | AX = 7 | BS = 8| SA =9
 
 type Channel = | A = 0 | B = 1
 
