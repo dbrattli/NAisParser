@@ -11,21 +11,22 @@ namespace Kystverket
         static void Main(string[] args)
         {
             var port = 5631;
-            var server = "153.44.253.27"
+            var server = "153.44.253.27";
             var client = new TcpClient(server, port);
             var stream = client.GetStream();
             var parser = new Parser();
-            AisResult aisResult;
+            AisResult aisResult = null;
 
             using(StreamReader reader = new StreamReader(stream)) {
                 string line;
 
                 while ((line = reader.ReadLine()) != null) {
                     var result = parser.TryParse(line, out aisResult);
-                    Console.WriteLine(aisResult.Channel.ToString());
-
-                    result = parser.TryParse(aisResult, out CommonNavigationBlockResult cnbResult);
-                    Console.WriteLine(cnbResult.ToString());
+                    if (result)
+                    {
+                        result = parser.TryParse(aisResult, out CommonNavigationBlockResult cnbResult);
+                        Console.WriteLine(cnbResult.ToString());
+                    }
                 }
             }
         }
