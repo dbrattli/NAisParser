@@ -1,8 +1,5 @@
-parser/bin
-parser/obj
-tests/bin
-tests/obj
 .vs
+.vscode
 coverage.info
-Playground/bin/
-Playground/obj/
+*/bin/
+*/obj/
