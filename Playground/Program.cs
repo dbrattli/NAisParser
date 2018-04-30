@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net.Sockets;
 
 using AisParser;
 
@@ -8,15 +10,24 @@ namespace Kystverket
     {
         static void Main(string[] args)
         {
+            var port = 5631;
+            var server = "153.44.253.27"
+            var client = new TcpClient(server, port);
+            var stream = client.GetStream();
             var parser = new Parser();
             AisResult aisResult;
-            var result = parser.TryParse("!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16", out aisResult);
-            //result.
-            Console.WriteLine(aisResult.Channel.ToString());
 
-            result = parser.TryParse(aisResult, out CommonNavigationBlockResult cnbResult);
-            Console.WriteLine(cnbResult.ToString());
-            Console.ReadLine();
+            using(StreamReader reader = new StreamReader(stream)) {
+                string line;
+
+                while ((line = reader.ReadLine()) != null) {
+                    var result = parser.TryParse(line, out aisResult);
+                    Console.WriteLine(aisResult.Channel.ToString());
+
+                    result = parser.TryParse(aisResult, out CommonNavigationBlockResult cnbResult);
+                    Console.WriteLine(cnbResult.ToString());
+                }
+            }
         }
     }
 }

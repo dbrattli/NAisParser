@@ -18,6 +18,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../parser/Parser.fsproj" />
+    <ProjectReference Include="../Parser/Parser.fsproj" />
   </ItemGroup>
 </Project>
