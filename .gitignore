@@ -4,3 +4,5 @@ tests/bin
 tests/obj
 .vs
 coverage.info
+Playground/bin/
+Playground/obj/
