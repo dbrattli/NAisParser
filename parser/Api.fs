@@ -7,21 +7,25 @@ open FParsec
 open AisParser.Ais
 
 
-type public Parser(cb : Action<ParserResult<AisResult, unit>>) =
-
-    let callback = cb
-
+type public Parser() =
     let fragments = new List<ParserResult<AisResult, unit>>()
 
-    member public this.Parse(input: String) : unit =
-        let result = run aisParser input
+    member public this.TryParse(input: String, result : byref<AisResult>) : bool =
+        let res = run aisParser input
 
-        match result with
+        match res with
         | Success (c, state, pos) ->
-            if c.Number < c.Count then
-                fragments.Add(result)
-            else
-                callback.Invoke(result)
+            fragments.Add(res)
 
+            if c.Number < c.Count then
+                false
+            else
+                let fragment = fragments |> Seq.reduce defragment
+                match fragment with
+                | Success (c, state, pos) ->
+                    result <- c
+                    true
+                | Failure (a, b, c)  ->
+                    raise (System.ArgumentException(a))
         | Failure (a, b, c)  ->
             raise (System.ArgumentException(a))

@@ -6,12 +6,12 @@ open AisParser.Core
 
 type TalkerId = | AB | AD| AI | AN | AR | AS | AT | AX | BS | SA
 
-type Channel = | A | B
+type Channel = | A = 0 | B = 1
 
 type AisResult = {
     Vdm: TalkerId;
-    Number: uint8;
     Count: uint8;
+    Number: uint8;
     Seq: uint8 option;
     Channel: Channel;
     Payload: string;
@@ -19,11 +19,11 @@ type AisResult = {
 
 module Ais =
     // AisResult constructor to enable currying
-    let aisResult vdm number count seq channel payload : AisResult =
+    let aisResult vdm count number seq channel payload : AisResult =
         {
             Vdm = vdm;
-            Number = number;
             Count = count;
+            Number = number;
             Seq = seq;
             Channel = channel;
             Payload = payload;
@@ -31,8 +31,8 @@ module Ais =
 
     let defaultAisResult : AisResult = {
         Vdm = TalkerId.AB;
-        Number = 0uy;
         Count = 0uy;
+        Number = 0uy;
         Seq = Some 0uy;
         Channel = Channel.A;
         Payload = "";
@@ -121,8 +121,8 @@ module Ais =
     let aisParser : Parser<_> =
         preturn aisResult
         <*> parseVdm
-        <*> parseNumber
         <*> parseCount
+        <*> parseNumber
         <*> parseSeq
         <*> parseChannel
         <*> parsePayload
