@@ -17,7 +17,7 @@ namespace Kystverket
             var parser = new Parser();
             AisResult aisResult = null;
 
-            using(StreamReader reader = new StreamReader(stream)) {
+            using (StreamReader reader = new StreamReader(stream)) {
                 string line;
 
                 while ((line = reader.ReadLine()) != null) {

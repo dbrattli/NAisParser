@@ -70,7 +70,6 @@ type ShipType =
 
 
 type CommonNavigationBlockResult = {
-    Type: byte;
     Repeat: byte;
     Mmsi: int;
     Status: NavigationStatus;
@@ -83,7 +82,6 @@ type CommonNavigationBlockResult = {
 }
 
 type StaticAndVoyageRelatedData = {
-    Type: byte;
     Repeat: byte;
     Mmsi: int;
     Version: byte;
@@ -106,7 +104,6 @@ type StaticAndVoyageRelatedData = {
 }
 
 type BaseStationReport = {
-    Type: byte;
     Repeat: byte;
     Mmsi: int;
 }
@@ -116,11 +113,6 @@ type MessageType =
     | Type5 of StaticAndVoyageRelatedData
 
 module Common =
-    let parseType (num:int) =
-        let bitPattern = Convert.ToString (num, 2) |> int
-        sprintf "%06d" bitPattern |> pstring
-        |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
-
     let parseRepeat = Core.parseUint2
 
     let parseMmsi = Core.parseUint30

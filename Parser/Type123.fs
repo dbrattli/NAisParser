@@ -7,10 +7,9 @@ open AisParser.Core
 
 
 module Type123 =
-    let commonNavigationBlockResult typ repeat mmsi status turn
+    let commonNavigationBlockResult repeat mmsi status turn
         speed accuracy lon lat course : CommonNavigationBlockResult =
         {
-            Type = typ;
             Repeat = repeat;
             Mmsi = mmsi;
             Status = status;
@@ -23,7 +22,6 @@ module Type123 =
         }
 
     let defaultCommonNavigationBlockResult : CommonNavigationBlockResult = {
-        Type = 0uy;
         Repeat = 0uy;
         Mmsi = 0;
         Status = NavigationStatus.NotDefined;
@@ -71,7 +69,6 @@ module Type123 =
 
     let parseCommonNavigationBlock: Parser<_> =
         preturn commonNavigationBlockResult
-        <*> (Common.parseType 1 <|> Common.parseType 2 <|> Common.parseType 3)
         <*> Common.parseRepeat
         <*> Common.parseMmsi
         <*> parseStatus

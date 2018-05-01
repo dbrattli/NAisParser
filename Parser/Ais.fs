@@ -15,24 +15,20 @@ type AisResult = {
     Seq: uint8 option;
     Channel: Channel;
     Type: byte;
-    Repeat: byte;
-    Mmsi: int;
     Payload: string;
 }
 
 module Ais =
     // AisResult constructor to enable currying
-    let aisResult vdm count number seq channel payload : AisResult =
+    let aisResult vdm count number seq channel typ payload : AisResult =
         {
             Vdm = vdm;
             Count = count;
             Number = number;
             Seq = seq;
             Channel = channel;
+            Type = typ;
             Payload = payload;
-            Type = 0uy;
-            Repeat = 0uy;
-            Mmsi = 0;
         }
 
     let defaultAisResult : AisResult = {
@@ -42,8 +38,6 @@ module Ais =
         Seq = Some 0uy;
         Channel = Channel.A;
         Type = 0uy;
-        Repeat = 0uy;
-        Mmsi = 0;
         Payload = "";
     }
 
@@ -93,10 +87,8 @@ module Ais =
 
     let toPaddedBinary (i: int) =
         Convert.ToString (i, 2) |> int |> sprintf "%06d"
-
-    /// Payload handling
-    let charListToBinaryString charList =
-        let convert chr =
+     
+    let convert chr =
             let value = int chr
             if value > 40 then
                 let n = value - 48
@@ -107,6 +99,8 @@ module Ais =
             else
                 value
 
+    /// Payload handling
+    let charListToBinaryString charList =
         let binList =
             List.map (convert >> toPaddedBinary) charList
 
@@ -121,9 +115,14 @@ module Ais =
     // Allowed characters in payload
     let allowedChars = List.map char [48..119]
 
+    let parseType : Parser<_> =
+        comma >>. anyOf allowedChars
+        |>> (convert >> toPaddedBinary)
+        |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
+
     let parsePayload : Parser<_> =
         // Parse to string
-        comma >>. many1 (anyOf allowedChars)
+        many1 (anyOf allowedChars)
         // Transform to binary string
         |>> charListToBinaryString
 
@@ -134,6 +133,6 @@ module Ais =
         <*> parseNumber
         <*> parseSeq
         <*> parseChannel
+        <*> parseType
         <*> parsePayload
-        >>= (fun (x, y) -> (x, y))
         <*  parsePadBits
