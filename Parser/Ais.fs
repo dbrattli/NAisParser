@@ -87,7 +87,7 @@ module Ais =
 
     let toPaddedBinary (i: int) =
         Convert.ToString (i, 2) |> int |> sprintf "%06d"
-     
+
     let convert chr =
             let value = int chr
             if value > 40 then
@@ -108,8 +108,8 @@ module Ais =
 
     let parseFields : Parser<MessageType> =
         let typeParser =
-            Type123.parseCommonNavigationBlock <|>
-            Type5.parseStaticAndVoyageRelatedData
+            Type123.parseCommonNavigationBlock
+            <|> Type5.parseStaticAndVoyageRelatedData
         typeParser
 
     // Allowed characters in payload

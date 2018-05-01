@@ -14,11 +14,26 @@ type TestClass () =
         ()
 
     [<Test>]
-    member this.ParseBsvdmIsSuccess () =
+    member this.ParseVdmBsvdmIsSuccess () =
         let input = "!BSVDM"
         let result = run parseVdm input
 
         isSuccess(result)|> should be True
+
+
+    [<Test>]
+    member this.ParseInvalidVdmBsvdmIsFailure () =
+        let input = "BSVDM"
+        let result = run parseVdm input
+
+        isSuccess(result)|> should be False
+
+    [<Test>]
+    member this.ParseUnknownVdmBsvdmIsFailure () =
+        let input = "XXVDM"
+        let result = run parseVdm input
+
+        isSuccess(result)|> should be False
 
     [<Test>]
     member this.ParseAivdmIsSuccess () =
@@ -35,7 +50,7 @@ type TestClass () =
         isSuccess(result)|> should be True
 
     [<Test>]
-    member this.BsvdmSequence1 () =
+    member this.ParseBsvdmIsSuccess () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let result = input |> run aisParser
@@ -44,7 +59,7 @@ type TestClass () =
         result |> isSuccess |> should be True
 
     [<Test>]
-    member this.BsvdmMultiFragment () =
+    member this.ParseBsvdmMultiFragmentIsSuccess () =
         // Arrage
         let input: string [] = [|
             "!BSVDM,2,1,2,A,53mDDD02>EjthmLJ220HtppE>2222222222222164@G:34rdR?QSkSQDp888,0*15";
@@ -55,6 +70,5 @@ type TestClass () =
             |> Seq.map (run aisParser)
             |> Seq.reduce defragment
 
-        printfn "Result: %s" (result.ToString())
         // Assert
         result |> isSuccess |> should be True

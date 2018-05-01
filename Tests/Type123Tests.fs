@@ -20,15 +20,14 @@ type TestClassTest123 () =
 
         // Act
         let result = run aisParser input
-        printfn "Result: %s" (result.ToString())
 
         let result2 =
             match result with
             | Success (ais, state, pos) ->
                 run parseFields ais.Payload;
             | Failure (a, b, c) -> Failure(a, b, c)
-        printfn "Result: %s" (result2.ToString())
 
         // Assert
         isSuccess(result) |> should be True
+        isSuccess(result2) |> should be True
 

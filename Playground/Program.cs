@@ -22,10 +22,22 @@ namespace Kystverket
 
                 while ((line = reader.ReadLine()) != null) {
                     var result = parser.TryParse(line, out aisResult);
-                    if (result)
+                    if (!result) continue;
+
+                    switch (aisResult.Type)
                     {
-                        result = parser.TryParse(aisResult, out CommonNavigationBlockResult cnbResult);
-                        Console.WriteLine(cnbResult.ToString());
+                        case 1:
+                        case 2:
+                        case 3:
+                            result = parser.TryParse(aisResult, out CommonNavigationBlockResult type123Result);
+                            Console.WriteLine(type123Result.ToString());
+                            break;
+                        case 5:
+                            result = parser.TryParse(aisResult, out StaticAndVoyageRelatedData type5Result);
+                            Console.WriteLine(type5Result.ToString());
+                            break;
+                        default:
+                            break;
                     }
                 }
             }

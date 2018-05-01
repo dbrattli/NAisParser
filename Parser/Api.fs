@@ -15,7 +15,7 @@ type public Parser() =
         let res = run aisParser input
 
         match res with
-        | Success (c, state, pos) ->
+        | Success (c, _, _) ->
             fragments.Add(res)
 
             if c.Number < c.Count then
@@ -23,38 +23,39 @@ type public Parser() =
             else
                 let fragment = fragments |> Seq.reduce defragment
                 match fragment with
-                | Success (c, state, pos) ->
+                | Success (c, _, _) ->
                     result <- c
+                    fragments.Clear()
                     true
-                | Failure (a, b, c)  ->
-                    raise (System.ArgumentException(a))
-        | Failure (a, b, c)  ->
-            raise (System.ArgumentException(a))
+                | Failure (error, _, _)  ->
+                    raise (System.ArgumentException(error))
+        | Failure (error, _, _)  ->
+            raise (System.ArgumentException(error))
 
     member public this.TryParse(input: AisResult, [<Out>] result : CommonNavigationBlockResult byref) : bool =
         let res = run parseFields input.Payload;
 
         match res with
-        | Success (message, state, pos) ->
+        | Success (message, _, _) ->
             match message with
             | Type123 cnb ->
                 result <- cnb
                 true
             | _ ->
                 false
-        | Failure (a, b, c)  ->
-            raise (System.ArgumentException(a))
+        | Failure (error, _, _)  ->
+            raise (System.ArgumentException(error))
 
-    member public this.TryParse(input: AisResult, result : byref<StaticAndVoyageRelatedData>) : bool =
+    member public this.TryParse(input: AisResult, result : StaticAndVoyageRelatedData byref) : bool =
         let res = run parseFields input.Payload;
 
         match res with
-        | Success (message, state, pos) ->
+        | Success (message, _, _) ->
             match message with
             | Type5 cnb ->
                 result <- cnb
                 true
             | _ ->
                 false
-        | Failure (a, b, c)  ->
-            raise (System.ArgumentException(a))
+        | Failure (error, _, _)  ->
+            raise (System.ArgumentException(error))
