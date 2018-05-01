@@ -15,13 +15,12 @@ namespace Kystverket
             var client = new TcpClient(server, port);
             var stream = client.GetStream();
             var parser = new Parser();
-            AisResult aisResult = null;
-
+            
             using (StreamReader reader = new StreamReader(stream)) {
                 string line;
 
                 while ((line = reader.ReadLine()) != null) {
-                    var result = parser.TryParse(line, out aisResult);
+                    var result = parser.TryParse(line, out AisResult aisResult);
                     if (!result) continue;
 
                     switch (aisResult.Type)

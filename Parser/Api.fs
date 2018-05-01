@@ -46,7 +46,7 @@ type public Parser() =
         | Failure (error, _, _)  ->
             raise (System.ArgumentException(error))
 
-    member public this.TryParse(input: AisResult, result : StaticAndVoyageRelatedData byref) : bool =
+    member public this.TryParse(input: AisResult, [<Out>] result : StaticAndVoyageRelatedData byref) : bool =
         let res = run parseFields input.Payload;
 
         match res with
