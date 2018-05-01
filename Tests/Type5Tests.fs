@@ -30,8 +30,6 @@ type TestClassType5 () =
             | Success (ais, state, pos) ->
                 run parseFields ais.Payload;
             | Failure (a, b, c) -> Failure(a, b, c)
-        printfn "Result: %s" (result2.ToString())
 
-        printfn "Result: %s" (result.ToString())
         // Assert
         result |> isSuccess |> should be True

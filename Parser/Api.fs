@@ -33,6 +33,7 @@ type public Parser() =
 
     member public this.TryParse(input: AisResult, [<Out>] result : CommonNavigationBlockResult byref) : bool =
         let res = run parseFields input.Payload;
+
         match res with
         | Success (message, state, pos) ->
             match message with
@@ -46,6 +47,7 @@ type public Parser() =
 
     member public this.TryParse(input: AisResult, result : byref<StaticAndVoyageRelatedData>) : bool =
         let res = run parseFields input.Payload;
+
         match res with
         | Success (message, state, pos) ->
             match message with

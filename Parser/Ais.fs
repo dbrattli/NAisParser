@@ -14,6 +14,9 @@ type AisResult = {
     Number: uint8;
     Seq: uint8 option;
     Channel: Channel;
+    Type: byte;
+    Repeat: byte;
+    Mmsi: int;
     Payload: string;
 }
 
@@ -27,6 +30,9 @@ module Ais =
             Seq = seq;
             Channel = channel;
             Payload = payload;
+            Type = 0uy;
+            Repeat = 0uy;
+            Mmsi = 0;
         }
 
     let defaultAisResult : AisResult = {
@@ -35,6 +41,9 @@ module Ais =
         Number = 0uy;
         Seq = Some 0uy;
         Channel = Channel.A;
+        Type = 0uy;
+        Repeat = 0uy;
+        Mmsi = 0;
         Payload = "";
     }
 
@@ -126,4 +135,5 @@ module Ais =
         <*> parseSeq
         <*> parseChannel
         <*> parsePayload
+        >>= (fun (x, y) -> (x, y))
         <*  parsePadBits
