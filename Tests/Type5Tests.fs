@@ -29,7 +29,9 @@ type TestClassType5 () =
             match result with
             | Success (ais, state, pos) ->
                 run parseFields ais.Payload;
-            | Failure (a, b, c) -> Failure(a, b, c)
+            | Failure (a, b, c) ->
+                Failure(a, b, c)
 
         // Assert
         result |> isSuccess |> should be True
+        result2 |> isSuccess |> should be True

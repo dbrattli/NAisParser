@@ -15,7 +15,7 @@ namespace Kystverket
             var client = new TcpClient(server, port);
             var stream = client.GetStream();
             var parser = new Parser();
-            
+
             using (StreamReader reader = new StreamReader(stream)) {
                 string line;
 
