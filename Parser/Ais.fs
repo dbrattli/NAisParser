@@ -54,7 +54,7 @@ module Ais =
                 | Success (p, _, _) ->
                     if (c.Count > 1uy) && (c.Number > 1uy) then
                         let payload = p.Payload + c.Payload
-                        Success ({ c with Payload = payload }, state, pos)
+                        Success ({ p with Payload = payload }, state, pos)
                     else
                         curr
                 | Failure (a, b, c) -> Failure(a, b, c)
