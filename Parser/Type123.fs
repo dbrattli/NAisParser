@@ -8,7 +8,7 @@ open AisParser.Core
 
 module Type123 =
     let commonNavigationBlockResult repeat mmsi status turn
-        speed accuracy lon lat course : CommonNavigationBlockResult =
+        speed accuracy lon lat course heading second maneuver: CommonNavigationBlockResult =
         {
             Repeat = repeat;
             Mmsi = mmsi;
@@ -19,23 +19,29 @@ module Type123 =
             Longitude = lat;
             Latitude = lon;
             CourseOverGround = course;
+            TrueHeading = heading;
+            TimeStamp = second;
+            ManeuverIndicator = maneuver;
         }
 
     let defaultCommonNavigationBlockResult : CommonNavigationBlockResult = {
         Repeat = 0uy;
         Mmsi = 0;
         Status = NavigationStatus.NotDefined;
-        RateOfTurn = 0.0;
+        RateOfTurn = 128.0;
         SpeedOverGround = 0;
         PositionAccuracy = 0;
         Longitude = 181.0;
         Latitude = 91.0;
         CourseOverGround = 0.0;
+        TrueHeading = 511;
+        TimeStamp = 0;
+        ManeuverIndicator = ManeuverIndicator.NoSpecialManeuver;
     }
 
     let parseRateOfTurn =
-        let square x = x * x
-        Core.parseInt8 |>> fun (x) -> square((float) x / 4.733)
+        let square x = x * x * float(Math.Sign(float x))
+        Core.parseSByte |>> fun x -> square((float x) / 4.733)
 
     let parseSpeedOverGround =
         Core.parseBits 10
@@ -58,7 +64,7 @@ module Type123 =
     let parseCourseOverGround =
         Core.parseBits 12
         |>> fun x -> Convert.ToInt32(x, 2)
-        |>> fun x -> float(x) / 0.1
+        |>> fun x -> float(x) / 10.0
 
     let parseStatus =
         Core.parseBits 4
@@ -66,6 +72,20 @@ module Type123 =
             let value = Convert.ToInt32(x, 2)
             enum<NavigationStatus>(value)
         )
+
+    let parseTrueHeading =
+        Core.parseBits 9
+        |>> fun x -> Convert.ToInt32(x, 2)
+
+    let parseTimeStamp =
+        Core.parseBits 6
+        |>> fun x -> Convert.ToInt32(x, 2)
+
+    let parseManeuverIndicator =
+        Core.parseBits 2
+        |>> fun x ->
+            let value = Convert.ToInt32(x, 2)
+            enum<ManeuverIndicator>(value)
 
     let parseCommonNavigationBlock: Parser<_> =
         // Transform to binary string
@@ -79,4 +99,7 @@ module Type123 =
         <*> parseLongitude
         <*> parseLatitude
         <*> parseCourseOverGround
+        <*> parseTrueHeading
+        <*> parseTimeStamp
+        <*> parseManeuverIndicator
         |>> Type123
