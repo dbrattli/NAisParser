@@ -131,9 +131,8 @@ module Common =
             value
 
     /// Payload handling
-    let charListToBinaryString charList =
-        let binList =
-            List.map (char2int >> toPaddedBinary) charList
+    let intListToBinaryString intList =
+        let binList = List.map toPaddedBinary intList
 
         String.concat "" binList
 

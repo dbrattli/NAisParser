@@ -69,7 +69,6 @@ module Type123 =
 
     let parseCommonNavigationBlock: Parser<_> =
         // Transform to binary string
-        charListToBinaryString
         preturn commonNavigationBlockResult
         <*> Common.parseRepeat
         <*> Common.parseMmsi

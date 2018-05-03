@@ -1,6 +1,5 @@
 namespace AisParser
 
-open System
 open FParsec
 open AisParser.Core
 
@@ -15,6 +14,7 @@ type AisResult = {
     Seq: uint8 option;
     Channel: Channel;
     Payload: list<int>;
+    Type: byte;
 }
 
 module Ais =
@@ -27,6 +27,7 @@ module Ais =
             Seq = seq;
             Channel = channel;
             Payload = payload;
+            Type = 0uy;
         }
 
     let defaultAisResult : AisResult = {
@@ -36,6 +37,7 @@ module Ais =
         Seq = Some 0uy;
         Channel = Channel.A;
         Payload = [];
+        Type = 0uy;
     }
 
     let isSuccess result =
@@ -81,12 +83,6 @@ module Ais =
             | _ -> Channel.A
 
     let parsePadBits = comma >>. puint8
-
-    let parseFields : Parser<MessageType> =
-        let typeParser =
-            Type123.parseCommonNavigationBlock
-            <|> Type5.parseStaticAndVoyageRelatedData
-        typeParser
 
     let parsePayload : Parser<_> =
         // Parse to string

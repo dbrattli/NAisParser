@@ -3,7 +3,7 @@ namespace Tests
 open NUnit.Framework
 open FsUnit
 
-open AisParser.Ais
+open AisParser
 open FParsec
 
 [<TestClass>]
@@ -22,16 +22,16 @@ type TestClassType5 () =
             |]
         let result =
             input
-            |> Seq.map (run aisParser)
-            |> Seq.reduce defragment
+            |> Seq.map (run Ais.aisParser)
+            |> Seq.reduce Ais.defragment
 
         let result2 =
             match result with
             | Success (ais, state, pos) ->
-                run parseFields ais.Payload;
+                run Type5.parseStaticAndVoyageRelatedData (Common.intListToBinaryString ais.Payload)
             | Failure (a, b, c) ->
                 Failure(a, b, c)
 
         // Assert
-        result |> isSuccess |> should be True
-        result2 |> isSuccess |> should be True
+        result |> Ais.isSuccess |> should be True
+        result2 |> Ais.isSuccess |> should be True

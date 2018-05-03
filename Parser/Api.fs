@@ -24,7 +24,7 @@ type public Parser() =
                 let fragment = fragments |> Seq.reduce defragment
                 match fragment with
                 | Success (c, _, _) ->
-                    result <- c
+                    result <- { c with Type = byte c.Payload.[0]}
                     fragments.Clear()
                     true
                 | Failure (error, _, _)  ->
@@ -33,7 +33,8 @@ type public Parser() =
             raise (System.ArgumentException(error))
 
     member public this.TryParse(input: AisResult, [<Out>] result : CommonNavigationBlockResult byref) : bool =
-        let res = run parseFields input.Payload;
+        let binaryString = Common.intListToBinaryString input.Payload
+        let res = run Type123.parseCommonNavigationBlock binaryString
 
         match res with
         | Success (message, _, _) ->
@@ -47,7 +48,8 @@ type public Parser() =
             raise (System.ArgumentException(error))
 
     member public this.TryParse(input: AisResult, [<Out>] result : StaticAndVoyageRelatedData byref) : bool =
-        let res = run parseFields input.Payload;
+        let binaryString = Common.intListToBinaryString input.Payload
+        let res = run Type5.parseStaticAndVoyageRelatedData binaryString
 
         match res with
         | Success (message, _, _) ->

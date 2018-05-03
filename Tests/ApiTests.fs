@@ -125,6 +125,7 @@ type TestApi () =
         // Act
         let result1 = parser.TryParse(input.[0], aisResult)
         let result2 = parser.TryParse(input.[1], aisResult)
+        printfn "%A" aisResult
         let result3 = parser.TryParse(aisResult.Value, savResult)
 
         // Assert
