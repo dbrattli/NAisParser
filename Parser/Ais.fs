@@ -61,7 +61,7 @@ module Ais =
         result
 
     let parseVdm : Parser<_> =
-        pchar '!' >>. anyString 2 .>> pstring "VDM"
+        pchar '!' >>. anyString 2 .>> (pstring "VDM" <|> pstring "VDO")
         |>> fun x ->
             match x with
             | "AB" -> TalkerId.AB | "AD" -> TalkerId.AD
