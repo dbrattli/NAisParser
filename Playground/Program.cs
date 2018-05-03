@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 using AisParser;
 
@@ -15,11 +16,14 @@ namespace Kystverket
             var client = new TcpClient(server, port);
             var stream = client.GetStream();
             var parser = new Parser();
+            Stopwatch stopWatch = new Stopwatch();
 
             using (StreamReader reader = new StreamReader(stream)) {
                 string line;
 
                 while ((line = reader.ReadLine()) != null) {
+                    stopWatch.Reset();
+                    stopWatch.Start();
                     var result = parser.TryParse(line, out AisResult aisResult);
                     if (!result) continue;
 
@@ -29,15 +33,25 @@ namespace Kystverket
                         case 2:
                         case 3:
                             result = parser.TryParse(aisResult, out CommonNavigationBlockResult type123Result);
+                            stopWatch.Stop();
                             Console.WriteLine(type123Result.ToString());
                             break;
                         case 5:
                             result = parser.TryParse(aisResult, out StaticAndVoyageRelatedData type5Result);
+                            stopWatch.Stop();
                             Console.WriteLine(type5Result.ToString());
                             break;
                         default:
+                            throw new NotImplementedException(String.Format("Type: {0}", aisResult.Type));
                             break;
                     }
+
+                    long ts = stopWatch.ElapsedTicks;
+
+                    // Format and display the TimeSpan value.
+                    var tickTime = 1.0 / Stopwatch.Frequency;
+                    string elapsedTime = String.Format("Milliseconds {0}", ts*tickTime*1000);
+                    Console.WriteLine("RunTime " + elapsedTime);
                 }
             }
         }
