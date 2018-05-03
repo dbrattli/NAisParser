@@ -113,6 +113,35 @@ type MessageType =
     | Type5 of StaticAndVoyageRelatedData
 
 module Common =
+    // Allowed characters in payload
+    let allowedChars = List.map char [48..119]
+
+    let toPaddedBinary (i: int) =
+        Convert.ToString (i, 2) |> int |> sprintf "%06d"
+
+    let char2int chr =
+        let value = int chr
+        if value > 40 then
+            let n = value - 48
+            if n > 40 then
+                n - 8
+            else
+                n
+        else
+            value
+
+    /// Payload handling
+    let charListToBinaryString charList =
+        let binList =
+            List.map (char2int >> toPaddedBinary) charList
+
+        String.concat "" binList
+
+    let parseType : Parser<_> =
+        anyOf allowedChars
+        |>> (char2int >> toPaddedBinary)
+        |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
+
     let parseRepeat = Core.parseUint2
 
     let parseMmsi = Core.parseUint30
