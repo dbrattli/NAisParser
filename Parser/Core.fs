@@ -55,7 +55,7 @@ module Core =
             Seq.init chars (fun _ -> parseBits 6 |>> toAscii)
             |> Seq.reduce reducer
 
-        ps |>> fun x -> x.Trim(' ')
+        ps |>> fun x -> x.Trim([| ' '; '@'|])
 
     let inline apply pf pa =
         pf >>= fun f ->
