@@ -25,4 +25,4 @@ test:
     test_path: "$tests"
   script:
     - "cd $test_path"
-- "dotnet test"
+    - "dotnet test"
