@@ -14,20 +14,18 @@ type AisResult = {
     Number: uint8;
     Seq: uint8 option;
     Channel: Channel;
-    Type: byte;
-    Payload: string;
+    Payload: list<int>;
 }
 
 module Ais =
     // AisResult constructor to enable currying
-    let aisResult vdm count number seq channel typ payload : AisResult =
+    let aisResult vdm count number seq channel payload : AisResult =
         {
             Vdm = vdm;
             Count = count;
             Number = number;
             Seq = seq;
             Channel = channel;
-            Type = typ;
             Payload = payload;
         }
 
@@ -37,8 +35,7 @@ module Ais =
         Number = 0uy;
         Seq = Some 0uy;
         Channel = Channel.A;
-        Type = 0uy;
-        Payload = "";
+        Payload = [];
     }
 
     let isSuccess result =
@@ -53,7 +50,7 @@ module Ais =
                 match prev with
                 | Success (p, _, _) ->
                     if (c.Count > 1uy) && (c.Number > 1uy) then
-                        let payload = p.Payload + c.Payload
+                        let payload = List.append p.Payload c.Payload
                         Success ({ c with Payload = payload }, state, pos)
                     else
                         curr
@@ -85,46 +82,16 @@ module Ais =
 
     let parsePadBits = comma >>. puint8
 
-    let toPaddedBinary (i: int) =
-        Convert.ToString (i, 2) |> int |> sprintf "%06d"
-
-    let convert chr =
-            let value = int chr
-            if value > 40 then
-                let n = value - 48
-                if n > 40 then
-                    n - 8
-                else
-                    n
-            else
-                value
-
-    /// Payload handling
-    let charListToBinaryString charList =
-        let binList =
-            List.map (convert >> toPaddedBinary) charList
-
-        String.concat "" binList
-
     let parseFields : Parser<MessageType> =
         let typeParser =
             Type123.parseCommonNavigationBlock
             <|> Type5.parseStaticAndVoyageRelatedData
         typeParser
 
-    // Allowed characters in payload
-    let allowedChars = List.map char [48..119]
-
-    let parseType : Parser<_> =
-        comma >>. anyOf allowedChars
-        |>> (convert >> toPaddedBinary)
-        |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
-
     let parsePayload : Parser<_> =
         // Parse to string
-        many1 (anyOf allowedChars)
-        // Transform to binary string
-        |>> charListToBinaryString
+        many1 (anyOf Common.allowedChars)
+        |>> List.map Common.char2int
 
     let aisParser : Parser<_> =
         preturn aisResult
@@ -133,6 +100,5 @@ module Ais =
         <*> parseNumber
         <*> parseSeq
         <*> parseChannel
-        <*> parseType
         <*> parsePayload
         <*  parsePadBits
