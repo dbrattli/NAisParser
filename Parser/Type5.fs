@@ -47,7 +47,7 @@ module Type5 =
         Day = 0;
         Hour = 24;
         Minute = 60;
-        Draught = 0;
+        Draught = 0.0;
         Destination = "";
         Dte =  false;
     }
@@ -106,7 +106,7 @@ module Type5 =
 
     let parseDraught =
         Core.parseBits 8
-        |>> fun x -> Convert.ToInt32(x, 2) * 10
+        |>> fun x -> (Convert.ToInt32(x, 2) |> float) / 10.0
 
     let parseDestination = Core.parseAscii 120
 

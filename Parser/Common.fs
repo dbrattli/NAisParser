@@ -98,7 +98,7 @@ type StaticAndVoyageRelatedData = {
     Day: int;
     Hour: int;
     Minute: int;
-    Draught: int;
+    Draught: float;
     Destination: string;
     Dte: bool;
 }
