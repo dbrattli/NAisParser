@@ -27,7 +27,7 @@ type TestClassType5 () =
 
         let result2 =
             match result with
-            | Success (ais, state, pos) ->
+            | Success (ais, _, _) ->
                 run Type5.parseStaticAndVoyageRelatedData (Common.intListToBinaryString ais.Payload)
             | Failure (a, b, c) ->
                 Failure(a, b, c)
