@@ -132,4 +132,4 @@ type TestApi () =
         result1 |> should be False
         result2 |> should be True
         result3 |> should be True
-        savResult.Value.Mmsi |> should equal 25719600
+        savResult.Value.Mmsi |> should equal 257234000

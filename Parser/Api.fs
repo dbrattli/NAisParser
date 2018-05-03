@@ -24,7 +24,7 @@ type public Parser() =
                 let fragment = fragments |> Seq.reduce defragment
                 match fragment with
                 | Success (c, _, _) ->
-                    result <- { c with Type = byte c.Payload.[0]}
+                    result <- { c with Type = byte c.Payload.[0]; Payload = List.tail c.Payload }
                     fragments.Clear()
                     true
                 | Failure (error, _, _)  ->
