@@ -21,9 +21,9 @@ module Core =
         parseBits 30
         |>> fun x -> Convert.ToInt32(x, 2)
 
-    let parseInt8 =
+    let parseSByte =
         parseBits 8
-        |>> fun x -> Convert.ToByte(x, 2)
+        |>> fun x -> Convert.ToSByte(x, 2)
 
     let toAscii bits =
         match bits with

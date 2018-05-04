@@ -64,7 +64,6 @@ module Type5 =
         Core.parseBits 8
         |>> fun x ->
             let value = Convert.ToInt32(x, 2)
-            printfn "Result: %d" value
             enum<ShipType>(value)
 
     let parseCallSign = Core.parseAscii 42

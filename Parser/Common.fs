@@ -68,6 +68,9 @@ type ShipType =
     | TankerHazardousCatagoryC = 83
     | TankerHazardousCatagoryD = 84
 
+type ManeuverIndicator =
+    | NoSpecialManeuver = 0
+    | SpecialManeuver = 1
 
 type CommonNavigationBlockResult = {
     Repeat: byte;
@@ -79,6 +82,9 @@ type CommonNavigationBlockResult = {
     Longitude: float;
     Latitude: float;
     CourseOverGround: float;
+    TrueHeading: int;
+    TimeStamp: int;
+    ManeuverIndicator: ManeuverIndicator;
 }
 
 type StaticAndVoyageRelatedData = {
