@@ -1,3 +1,5 @@
+![coverage](https://gitlab.com/dbrattli/AisParser/badges/master/coverage.svg)
+
 # AIS AIVDM/AIVDO Parser for .NET #
 
 An NMEA AIS [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html) parser for .NET Core. Written in F# using FParsec. The advantage of using a parser combinator library is that the implementation looks very similar to the specification. Thus the code is clean and  easyer to validate against the specification.
