@@ -5,10 +5,10 @@ open FParsec
 open AisParser.Core
 
 module Type5 =
-    let staticAndVoyageRelatedData repeat mmsi version imo
+    let messageType5 repeat mmsi version imo
         callsign shipname shiptype tobow tostern toport tostarboard epfd
         month day hour minute draught destination dte
-        : StaticAndVoyageRelatedData =
+        : MessageType5=
         {
             Repeat = repeat;
             Mmsi = mmsi;
@@ -30,7 +30,7 @@ module Type5 =
             Destination = destination;
             Dte =  dte;
         }
-    let defaultStaticAndVoyageRelatedData : StaticAndVoyageRelatedData = {
+    let defaultMessageType5: MessageType5 = {
         Repeat = 0uy;
         Mmsi = 0;
         Version = 0uy;
@@ -111,8 +111,8 @@ module Type5 =
 
     let parseDte = Core.parseBits 1 |>> fun x -> Convert.ToByte(x, 2) = 1uy
 
-    let parseStaticAndVoyageRelatedData: Parser<MessageType> =
-        preturn staticAndVoyageRelatedData
+    let parseMessageType5: Parser<MessageType> =
+        preturn messageType5
         <*> Common.parseRepeat
         <*> Common.parseMmsi
         <*> parseVersion

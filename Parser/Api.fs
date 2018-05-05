@@ -32,9 +32,9 @@ type public Parser() =
         | Failure (error, _, _)  ->
             raise (System.ArgumentException(error))
 
-    member public this.TryParse(input: AisResult, [<Out>] result : CommonNavigationBlockResult byref) : bool =
+    member public this.TryParse(input: AisResult, [<Out>] result : MessageType123 byref) : bool =
         let binaryString = Common.intListToBinaryString input.Payload
-        let res = run Type123.parseCommonNavigationBlock binaryString
+        let res = run Type123.parseMessageType123 binaryString
 
         match res with
         | Success (message, _, _) ->
@@ -47,9 +47,9 @@ type public Parser() =
         | Failure (error, _, _)  ->
             raise (System.ArgumentException(error))
 
-    member public this.TryParse(input: AisResult, [<Out>] result : StaticAndVoyageRelatedData byref) : bool =
+    member public this.TryParse(input: AisResult, [<Out>] result : MessageType5 byref) : bool =
         let binaryString = Common.intListToBinaryString input.Payload
-        let res = run Type5.parseStaticAndVoyageRelatedData binaryString
+        let res = run Type5.parseMessageType5 binaryString
 
         match res with
         | Success (message, _, _) ->

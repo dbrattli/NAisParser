@@ -7,8 +7,8 @@ open AisParser.Core
 
 
 module Type123 =
-    let commonNavigationBlockResult repeat mmsi status turn
-        speed accuracy lon lat course heading second maneuver: CommonNavigationBlockResult =
+    let messageType123 repeat mmsi status turn
+        speed accuracy lon lat course heading second maneuver: MessageType123=
         {
             Repeat = repeat;
             Mmsi = mmsi;
@@ -24,7 +24,7 @@ module Type123 =
             ManeuverIndicator = maneuver;
         }
 
-    let defaultCommonNavigationBlockResult : CommonNavigationBlockResult = {
+    let defaultMessageType123: MessageType123= {
         Repeat = 0uy;
         Mmsi = 0;
         Status = NavigationStatus.NotDefined;
@@ -87,9 +87,9 @@ module Type123 =
             let value = Convert.ToInt32(x, 2)
             enum<ManeuverIndicator>(value)
 
-    let parseCommonNavigationBlock: Parser<_> =
+    let parseMessageType123: Parser<_> =
         // Transform to binary string
-        preturn commonNavigationBlockResult
+        preturn messageType123
         <*> Common.parseRepeat
         <*> Common.parseMmsi
         <*> parseStatus

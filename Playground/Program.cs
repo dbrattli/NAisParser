@@ -32,12 +32,12 @@ namespace Kystverket
                         case 1:
                         case 2:
                         case 3:
-                            result = parser.TryParse(aisResult, out CommonNavigationBlockResult type123Result);
+                            result = parser.TryParse(aisResult, out MessageType123 type123Result);
                             stopWatch.Stop();
                             Console.WriteLine(type123Result.ToString());
                             break;
                         case 5:
-                            result = parser.TryParse(aisResult, out StaticAndVoyageRelatedData type5Result);
+                            result = parser.TryParse(aisResult, out MessageType5 type5Result);
                             stopWatch.Stop();
                             Console.WriteLine(type5Result.ToString());
                             break;

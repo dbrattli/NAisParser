@@ -72,7 +72,8 @@ type ManeuverIndicator =
     | NoSpecialManeuver = 0
     | SpecialManeuver = 1
 
-type CommonNavigationBlockResult = {
+// Common Navigation Block
+type MessageType123 = {
     Repeat: byte;
     Mmsi: int;
     Status: NavigationStatus;
@@ -87,7 +88,8 @@ type CommonNavigationBlockResult = {
     ManeuverIndicator: ManeuverIndicator;
 }
 
-type StaticAndVoyageRelatedData = {
+// Static And Voyage Related Data
+type MessageType5 = {
     Repeat: byte;
     Mmsi: int;
     Version: byte;
@@ -115,8 +117,8 @@ type BaseStationReport = {
 }
 
 type MessageType =
-    | Type123 of CommonNavigationBlockResult
-    | Type5 of StaticAndVoyageRelatedData
+    | Type123 of MessageType123
+    | Type5 of MessageType5
 
 module Common =
     // Allowed characters in payload
