@@ -14,6 +14,32 @@ Have fun!
 
 ## Use API C# ##
 
-dfs
+```c#
+var parser = new Parser();
+
+using (StreamReader reader = new StreamReader(stream))
+{
+    string line;
+
+    while ((line = reader.ReadLine()) != null) {
+        var result = parser.TryParse(line, out AisResult aisResult);
+        if (!result) continue;
+
+        switch (aisResult.Type)
+        {
+            case 1:
+            case 2:
+            case 3:
+                result = parser.TryParse(aisResult, out Type123 type123Result);
+                break;
+            case 5:
+                result = parser.TryParse(aisResult, out Type5 type5Result);
+                break;
+            default:
+                break
+        }
+    }
+}
+```
 
 ## Use API F# ##
