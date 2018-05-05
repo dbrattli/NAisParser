@@ -25,4 +25,5 @@ test:
     test_path: "$tests"
   script:
     - "cd $test_path"
-    - "dotnet test"
+    - "dotnet add package coverlet.msbuild"
+    - "dotnet test /p:CollectCoverage=true"
