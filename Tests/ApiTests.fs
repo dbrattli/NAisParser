@@ -133,3 +133,43 @@ type TestApi () =
         result2 |> should be True
         result3 |> should be True
         savResult.Value.Mmsi |> should equal 257234000
+
+    [<Test>]
+    member this.TestApiParseType1ShortThrowsException () =
+        // Arrage
+        let input = "!BSVDM,1,1,,A,1,0*16";
+        let mutable aisResult = ref Ais.defaultAisResult
+        let mutable cnbResult = ref Type123.defaultMessageType123
+        let mutable raised = false
+        let parser = Parser()
+
+        // Act
+        let result1 = parser.TryParse(input, aisResult)
+        try
+            parser.TryParse(aisResult.Value, cnbResult) |> ignore
+        with
+            | :? ArgumentException ->
+                raised <- true
+
+        // Assert
+        result1 |> should be True
+
+    [<Test>]
+    member this.TestApiParseType5ShortThrowsException () =
+        // Arrage
+        let input = "!BSVDM,1,1,,A,5,0*16";
+        let mutable aisResult = ref Ais.defaultAisResult
+        let mutable cnbResult = ref Type5.defaultMessageType5
+        let mutable raised = false
+        let parser = Parser()
+
+        // Act
+        let result1 = parser.TryParse(input, aisResult)
+        try
+            parser.TryParse(aisResult.Value, cnbResult) |> ignore
+        with
+            | :? ArgumentException ->
+                raised <- true
+
+        // Assert
+        result1 |> should be True
