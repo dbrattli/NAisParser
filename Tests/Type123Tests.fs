@@ -24,7 +24,7 @@ type TestClassTest123 () =
         let result2 =
             match result with
             | Success (ais, _, _) ->
-                run Type123.parseCommonNavigationBlock (Common.intListToBinaryString ais.Payload)
+                run Type123.parseMessageType123 (Common.intListToBinaryString ais.Payload)
             | Failure (a, b, c) -> Failure(a, b, c)
 
         // Assert

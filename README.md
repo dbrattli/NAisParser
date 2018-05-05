@@ -23,24 +23,20 @@ using (StreamReader reader = new StreamReader(stream))
 {
     string line;
 
-    while ((line = reader.ReadLine()) != null)
+    switch (aisResult.Type)
     {
-        var result = parser.TryParse(line, out AisResult aisResult);
-        if (!result) continue;
-
-        switch (aisResult.Type)
-        {
-            case 1:
-            case 2:
-            case 3:
-                result = parser.TryParse(aisResult, out Type123 type123Result);
-                break;
-            case 5:
-                result = parser.TryParse(aisResult, out Type5 type5Result);
-                break;
-            default:
-                break
-        }
+        case 1:
+        case 2:
+        case 3:
+            result = parser.TryParse(aisResult, out MessageType123 type123Result);
+            Console.WriteLine(type123Result.ToString());
+            break;
+        case 5:
+            result = parser.TryParse(aisResult, out MessageType5 type5Result);
+            Console.WriteLine(type5Result.ToString());
+            break;
+        default:
+            break;
     }
 }
 ```

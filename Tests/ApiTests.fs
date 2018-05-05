@@ -98,7 +98,7 @@ type TestApi () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
-        let mutable cnbResult = ref Type123.defaultCommonNavigationBlockResult
+        let mutable cnbResult = ref Type123.defaultMessageType123
         let parser = Parser()
 
         // Act
@@ -119,7 +119,7 @@ type TestApi () =
             "!BSVDM,2,2,2,A,88888888880,2*3F";
             |]
         let mutable aisResult = ref Ais.defaultAisResult
-        let mutable savResult = ref Type5.defaultStaticAndVoyageRelatedData
+        let mutable savResult = ref Type5.defaultMessageType5
         let parser = Parser()
 
         // Act
