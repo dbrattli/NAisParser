@@ -40,9 +40,9 @@ module Type123 =
     }
 
     let parseRateOfTurn =
-        let square x = x * x * float(Math.Sign(float x))
+        let inline squareSigned x = x * x * float(Math.Sign(float x))
         Core.parseSByte
-        |>> fun x -> square((float x) / 4.733)
+        |>> fun x -> squareSigned((float x) / 4.733)
 
     let parseSpeedOverGround =
         Core.parseBits 10

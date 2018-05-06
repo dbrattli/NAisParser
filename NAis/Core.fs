@@ -10,7 +10,7 @@ module Core =
     let inline isBit (c: char) =
         uint32 c - uint32 '0' <= uint32 '1' - uint32 '0'
 
-    let parseBits count : Parser<_> =
+    let inline parseBits count : Parser<_> =
         manyMinMaxSatisfy count count isBit
 
     let parseUint2 =
@@ -44,7 +44,7 @@ module Core =
         | "001110" -> "N" | "011110" -> "^"  | "101110" -> "."  | "111110" -> ">"
         | "001111" -> "O" | "011111" -> "_"  | "101111" -> "/"  | _        -> "?"
 
-    let parseAscii count =
+    let inline parseAscii count =
         let chars = count / 6
 
         let reducer x y =
