@@ -1,12 +1,13 @@
-# NAis is an AIVDM/AIVDO Parser for .NET #
+# NAisParser is an AIVDM/AIVDO Parser for .NET #
 
 ![coverage](https://gitlab.com/dbrattli/AisParser/badges/master/coverage.svg)
 
-An NMEA marine Automatic Identification System (AIS) [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html)
-decoder for .NET Standard. Written in F# using [FParsec](http://www.quanttec.com/fparsec/). The main
-advantage of using a parser combinator library such as FParsec, and using an applicative (functor)
-style is that the implementation looks very similar to the specification, thus the code is clean, and
-easy to extend and validate against the specification.
+[NaisParser](https://gitlab.com/dbrattli/NAisParser) is an NMEA marine Automatic Identification
+System (AIS) [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html) decoder for .NET Standard. Written in F#
+using [FParsec](http://www.quanttec.com/fparsec/). The main advantage of using a parser combinator
+library such as FParsec, and using an applicative (functor) style is that the implementation looks
+very similar to the specification, thus the code is clean, and easy to extend and validate against
+the specification.
 
 Currently parses:
 
