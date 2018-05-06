@@ -8,7 +8,7 @@ module Type5 =
     let messageType5 repeat mmsi version imo
         callsign shipname shiptype tobow tostern toport tostarboard epfd
         month day hour minute draught destination dte
-        : MessageType5=
+        : MessageType5 =
         {
             Repeat = repeat;
             Mmsi = mmsi;

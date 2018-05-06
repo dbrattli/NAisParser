@@ -41,7 +41,8 @@ module Type123 =
 
     let parseRateOfTurn =
         let square x = x * x * float(Math.Sign(float x))
-        Core.parseSByte |>> fun x -> square((float x) / 4.733)
+        Core.parseSByte
+        |>> fun x -> square((float x) / 4.733)
 
     let parseSpeedOverGround =
         Core.parseBits 10
@@ -88,7 +89,6 @@ module Type123 =
             enum<ManeuverIndicator>(value)
 
     let parseMessageType123: Parser<_> =
-        // Transform to binary string
         preturn messageType123
         <*> Common.parseRepeat
         <*> Common.parseMmsi
