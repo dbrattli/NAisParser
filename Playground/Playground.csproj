@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../NAis/NAis.fsproj" />
+    <ProjectReference Include="../Source/NAisParser.fsproj" />
   </ItemGroup>
 
 </Project>

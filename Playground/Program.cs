@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Diagnostics;
 
-using NAis;
+using NAisParser;
 
 namespace Kystverket
 {

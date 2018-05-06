@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NAis", "NAis/NAis.fsproj", "{289DAB68-DE78-4A4E-9B3E-C0C9EAD80EFD}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NaisParser", "Source/NAisParser.fsproj", "{289DAB68-DE78-4A4E-9B3E-C0C9EAD80EFD}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Tests", "Tests/Tests.fsproj", "{D4A7B0FD-230F-4BEB-A96D-855B1019EE3A}"
 EndProject

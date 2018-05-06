@@ -18,6 +18,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../NAis/NAis.fsproj" />
+    <ProjectReference Include="../Source/NAisParser.fsproj" />
   </ItemGroup>
 </Project>

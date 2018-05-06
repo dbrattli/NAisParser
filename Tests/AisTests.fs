@@ -3,7 +3,7 @@ namespace Tests
 open NUnit.Framework
 open FsUnit
 
-open NAis.Ais
+open NAisParser.Ais
 open FParsec
 
 [<TestClass>]

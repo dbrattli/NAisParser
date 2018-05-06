@@ -1,7 +1,7 @@
-namespace NAis
+namespace NAisParser
 
 open FParsec
-open NAis.Core
+open NAisParser.Core
 
 type TalkerId = | AB = 0 | AD = 1 | AI = 2 | AN = 3 | AR = 4 | AS = 5 | AT = 6 | AX = 7 | BS = 8| SA =9
 

@@ -4,7 +4,7 @@ open System
 open NUnit.Framework
 open FsUnit
 
-open NAis
+open NAisParser
 
 [<TestClass>]
 type TestApi () =

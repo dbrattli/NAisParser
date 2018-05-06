@@ -1,9 +1,9 @@
-namespace NAis
+namespace NAisParser
 
 open System
 open FParsec
 
-open NAis.Core
+open NAisParser.Core
 
 
 module Type123 =

@@ -4,7 +4,7 @@ open NUnit.Framework
 open FsUnit
 open FParsec
 
-open NAis
+open NAisParser
 
 [<TestClass>]
 type TestClassType5 () =
