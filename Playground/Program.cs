@@ -43,7 +43,6 @@ namespace Kystverket
                             break;
                         default:
                             throw new NotImplementedException(String.Format("Type: {0}", aisResult.Type));
-                            break;
                     }
 
                     long ts = stopWatch.ElapsedTicks;
