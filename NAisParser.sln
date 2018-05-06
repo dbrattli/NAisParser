@@ -6,7 +6,7 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "NaisParser", "Source/NAisPa
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Tests", "Tests/Tests.fsproj", "{D4A7B0FD-230F-4BEB-A96D-855B1019EE3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground", "Playground/Playground.csproj", "{E637F9C2-1A83-4F12-ADEB-5E3050EB11BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples", "Examples/NcaAisFeed/NcaAisFeed.csproj", "{E637F9C2-1A83-4F12-ADEB-5E3050EB11BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

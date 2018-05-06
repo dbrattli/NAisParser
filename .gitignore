@@ -1,7 +1,7 @@
 .vs
 .vscode
 coverage.info
-*/bin/
-*/obj/
+**/bin/
+**/obj/
 coverage.xml
 coverage.json
