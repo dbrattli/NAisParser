@@ -46,7 +46,7 @@ Se below for a full example. Enjoy!
 
 ## Install ##
 
-## Use API C# ##
+## C# Example ##
 
 ```c#
 var parser = new Parser();
@@ -76,5 +76,3 @@ using (StreamReader reader = new StreamReader(stream))
     }
 }
 ```
-
-## Use API F# ##
