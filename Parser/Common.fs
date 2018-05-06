@@ -124,8 +124,13 @@ module Common =
     // Allowed characters in payload
     let allowedChars = List.map char [48..119]
 
-    let toPaddedBinary (i: int) =
+    let toPaddedBinary' (i: int) =
         Convert.ToString (i, 2) |> int |> sprintf "%06d"
+
+    let toPaddedBinary (i: int) =
+        let str = Convert.ToString (i, 2)
+        let pad = String.replicate (6-str.Length) "0"
+        pad + str
 
     let char2int chr =
         let value = int chr

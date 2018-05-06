@@ -7,11 +7,11 @@ type UserState = unit // doesn't have to be unit, of course
 type Parser<'t> = Parser<'t, UserState>
 
 module Core =
-    let parseBits count : Parser<_> =
-        manyMinMaxSatisfy count count isDigit
-
     let inline isBit (c: char) =
         uint32 c - uint32 '0' <= uint32 '1' - uint32 '0'
+
+    let parseBits count : Parser<_> =
+        manyMinMaxSatisfy count count isBit
 
     let parseUint2 =
         parseBits 2
@@ -57,10 +57,13 @@ module Core =
 
         ps |>> fun x -> x.Trim([| ' '; '@'|])
 
-    let inline apply pf pa =
+    let inline apply' pf pa =
         pf >>= fun f ->
             pa >>= fun a ->
                 preturn (f a)
+
+    let inline apply pf pa =
+        pf >>= fun f -> pa |>> f
 
     let inline (<*>) f a = apply f a
 
