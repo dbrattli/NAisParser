@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>AisParser</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Dag Brattli</Authors>
+    <Company>Private</Company>
   </PropertyGroup>
 
   <ItemGroup>
