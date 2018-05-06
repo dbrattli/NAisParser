@@ -21,8 +21,22 @@ var line = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
 var result = parser.TryParse(line, out AisResult aisResult); // Returns true
 ```
 
-If result is `true` then you have a valid `AisResult`. If `false` then the packet if fragmented and
-you need to supply more data by calling `TryParse` again with another line of data, e.g.
+If result is `true` then you have a valid `AisResult` such as:
+
+```txt
+{Vdm = BS;
+ Count = 1uy;
+ Number = 1uy;
+ Seq = None;
+ Channel = A;
+ Payload =
+  [3; 53; 17; 63; 56; 0; 0; 1; 53; 0; 29; 29; 58; 50; 35; 55; 55; 53; 23; 6; 53;
+   39; 36; 0; 12; 1; 48];
+ Type = 1uy;}
+```
+
+If `false` then the packet if fragmented and you will need to supply more data
+by calling `TryParse` again with another line of data, e.g.
 
 ```c#
 var line1 = "!BSVDM,2,1,2,A,53mDDD02>EjthmLJ220HtppE>2222222222222164@G:34rdR?QSkSQDp888,0*15";
@@ -43,6 +57,23 @@ message is available in a valid `AisResult` from stage 1. To parse a message of 
 var result = parser.TryParse(aisResult, out MessageType123 type123Result);
 ````
 
+If result is `true` then you have a valid `MessageType123` such as:
+
+```txt
+{Repeat = 0uy;
+ Mmsi = 257196000;
+ Status = UnderWayUsingEngine;
+ RateOfTurn = 0.0;
+ SpeedOverGround = 117;
+ PositionAccuracy = 0;
+ Longitude = 62.69262167;
+ Latitude = 6.437268333;
+ CourseOverGround = 181.9;
+ TrueHeading = 179;
+ TimeStamp = 50;
+ ManeuverIndicator = NoSpecialManeuver;}
+```
+
 Se below for a full example. Enjoy!
 
 ## Install ##
@@ -54,12 +85,17 @@ dotnet add package NAisParser
 ## C# Example ##
 
 ```c#
+using NAisParser;
+
+...
+
 var parser = new Parser();
 
 using (StreamReader reader = new StreamReader(stream))
 {
     string line;
-    while ((line = reader.ReadLine()) != null) {
+    while ((line = reader.ReadLine()) != null)
+    {
         var result = parser.TryParse(line, out AisResult aisResult);
         if (!result) continue;
 
