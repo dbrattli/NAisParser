@@ -1,8 +1,9 @@
-namespace AisParser
+namespace NAis
 
 open System
 open FParsec
-open AisParser.Core
+
+open NAis.Core
 
 module Type5 =
     let messageType5 repeat mmsi version imo

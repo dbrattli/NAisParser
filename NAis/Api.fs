@@ -1,11 +1,11 @@
-namespace AisParser
+namespace NAis
 
 open System
 open System.Collections.Generic
+open System.Runtime.InteropServices //for OutAttribute
 
 open FParsec
-open AisParser.Ais
-open System.Runtime.InteropServices //for OutAttribute
+open NAis.Ais
 
 
 type public Parser() =

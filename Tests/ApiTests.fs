@@ -1,10 +1,10 @@
 namespace Tests
 
+open System
 open NUnit.Framework
 open FsUnit
 
-open AisParser
-open System
+open NAis
 
 [<TestClass>]
 type TestApi () =

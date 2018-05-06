@@ -1,4 +1,4 @@
-namespace AisParser
+namespace NAis
 
 open System
 open FParsec

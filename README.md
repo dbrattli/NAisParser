@@ -1,4 +1,4 @@
-# AIS AIVDM/AIVDO Parser for .NET #
+# NAis is an AIVDM/AIVDO Parser for .NET #
 
 ![coverage](https://gitlab.com/dbrattli/AisParser/badges/master/coverage.svg)
 

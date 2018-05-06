@@ -2,9 +2,9 @@ namespace Tests
 
 open NUnit.Framework
 open FsUnit
-
-open AisParser
 open FParsec
+
+open NAis
 
 [<TestClass>]
 type TestClassType5 () =
