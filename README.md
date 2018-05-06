@@ -46,6 +46,10 @@ Se below for a full example. Enjoy!
 
 ## Install ##
 
+```cli
+dotnet add package NAisParser
+```
+
 ## C# Example ##
 
 ```c#
