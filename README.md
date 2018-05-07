@@ -49,9 +49,9 @@ var result2 = parser.TryParse(line2, out AisResult aisResult); // Returns true
 If an error occurs while parsing `TryParse` will raise an `ArgumentException`.
 
 In the second stage you parse the AIS payload data depending on the type of message. The type of
-message is available in a valid `AisResult` from stage 1. To parse a message of type 1 you call
-`TryParse` with an `out` parameter of type `MessageType123`. To parse a message of type 5 you call
-`TryParse` with an `out` parameter of type `MessageType5`.
+message is available in the 'Type' property of a valid `AisResult` from stage 1. To parse a message
+of type 1 you call `TryParse` with an `out` parameter of type `MessageType123`. To parse a message
+of type 5 you call `TryParse` with an `out` parameter of type `MessageType5`.
 
 ```c#
 var result = parser.TryParse(aisResult, out MessageType123 type123Result);
