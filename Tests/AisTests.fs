@@ -36,21 +36,21 @@ type TestClass () =
         isSuccess(result)|> should be False
 
     [<Test>]
-    member this.ParseAivdmIsSuccess () =
+    member _this.``Parse AIVDM data packet is success`` () =
         let input = "!AIVDM"
         let result = run parseVdm input
 
         isSuccess(result) |> should be True
 
     [<Test>]
-    member this.ParseAbvdmIsSuccess () =
+    member _this.``Parse ABVDM data packet is success`` () =
         let input = "!ABVDM"
         let result = run parseVdm input
 
         isSuccess(result)|> should be True
 
     [<Test>]
-    member this.ParseBsvdmIsSuccess () =
+    member _this.``Parse BSVDM data packet is success`` () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let result = input |> run aisParser
@@ -59,7 +59,7 @@ type TestClass () =
         result |> isSuccess |> should be True
 
     [<Test>]
-    member this.ParseBsvdmMultiFragmentIsSuccess () =
+    member _this.``Parse BSVDM multi fragment data packet is success`` () =
         // Arrage
         let input: string [] = [|
             "!BSVDM,2,1,2,A,53mDDD02>EjthmLJ220HtppE>2222222222222164@G:34rdR?QSkSQDp888,0*15";
