@@ -10,11 +10,11 @@ open FParsec
 type TestClass () =
 
     [<SetUp>]
-    member this.Setup () =
+    member _this.Setup () =
         ()
 
     [<Test>]
-    member this.ParseVdmBsvdmIsSuccess () =
+    member _this.``Parse BSVDM data packet header is success`` () =
         let input = "!BSVDM"
         let result = run parseVdm input
 
@@ -22,14 +22,14 @@ type TestClass () =
 
 
     [<Test>]
-    member this.ParseInvalidVdmBsvdmIsFailure () =
+    member _this.``Parse invalid BSVDM header is failure`` () =
         let input = "BSVDM"
         let result = run parseVdm input
 
         isSuccess(result)|> should be False
 
     [<Test>]
-    member this.ParseUnknownVdmBsvdmIsFailure () =
+    member _this.``Parse unknown BSVDM is failure`` () =
         let input = "XXVDM"
         let result = run parseVdm input
 

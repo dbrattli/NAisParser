@@ -10,11 +10,11 @@ open NAisParser
 type TestApi () =
 
     [<SetUp>]
-    member this.Setup () =
+    member _this.Setup () =
         ()
 
     [<Test>]
-    member this.TestApiNonFragmentInputReturnsTrue () =
+    member _this.``Test API with non-fragmented input returns true`` () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let mutable result = ref Ais.defaultAisResult
@@ -27,7 +27,7 @@ type TestApi () =
         result |> should be True
 
     [<Test>]
-    member this.TestApiInvalidInputThrowsException () =
+    member _this.TestApiInvalidInputThrowsException () =
         // Arrage
         let input = "BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let mutable result = ref Ais.defaultAisResult
@@ -44,7 +44,7 @@ type TestApi () =
         raised |> should be True
 
     [<Test>]
-    member this.TestApiFirstFragmentReturnsFalse () =
+    member _this.TestApiFirstFragmentReturnsFalse () =
         // Arrage
         let input = "!BSVDM,2,1,2,A,53mDDD02>EjthmLJ220HtppE>2222222222222164@G:34rdR?QSkSQDp888,0*15";
         let mutable result = ref Ais.defaultAisResult
@@ -58,7 +58,7 @@ type TestApi () =
 
 
     [<Test>]
-    member this.TestApiLastFragmentReturnsTrue () =
+    member _this.TestApiLastFragmentReturnsTrue () =
         // Arrage
         let input: string [] = [|
             "!BSVDM,2,1,2,A,53mDDD02>EjthmLJ220HtppE>2222222222222164@G:34rdR?QSkSQDp888,0*15";
@@ -76,7 +76,7 @@ type TestApi () =
         result2 |> should be True
 
     [<Test>]
-    member this.TestApiNonFragmentInputSetsResult () =
+    member _this.TestApiNonFragmentInputSetsResult () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
@@ -84,7 +84,6 @@ type TestApi () =
         let parser = Parser()
 
         // Act
-
         let result = parser.TryParse(input, aisResult)
 
         // Assert
@@ -94,7 +93,7 @@ type TestApi () =
         aisResult.Value.Type |> should equal 1
 
     [<Test>]
-    member this.TestApiParseType1IsSuccess () =
+    member _this.TestApiParseType1IsSuccess () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
@@ -112,7 +111,7 @@ type TestApi () =
         cnbResult.Value.Longitude |> should equal 62.692621666666668
 
     [<Test>]
-    member this.TestApiParseType5IsSuccess () =
+    member _this.TestApiParseType5IsSuccess () =
         // Arrage
         let input: string [] = [|
             "!BSVDM,2,1,2,A,53mDDD02>EjthmLJ220HtppE>2222222222222164@G:34rdR?QSkSQDp888,0*15";
@@ -135,7 +134,7 @@ type TestApi () =
         savResult.Value.Mmsi |> should equal 257234000
 
     [<Test>]
-    member this.TestApiParseType1ShortThrowsException () =
+    member _this.TestApiParseType1ShortThrowsException () =
         // Arrage
         let input = "!BSVDM,1,1,,A,1,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
@@ -155,7 +154,7 @@ type TestApi () =
         result1 |> should be True
 
     [<Test>]
-    member this.TestApiParseType5ShortThrowsException () =
+    member _this.TestApiParseType5ShortThrowsException () =
         // Arrage
         let input = "!BSVDM,1,1,,A,5,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
