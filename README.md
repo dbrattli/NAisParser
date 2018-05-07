@@ -2,7 +2,7 @@
 
 ![coverage](https://gitlab.com/dbrattli/AisParser/badges/master/coverage.svg)
 
-[NaisParser](https://gitlab.com/dbrattli/NAisParser) is an NMEA marine Automatic Identification
+[NAisParser](https://gitlab.com/dbrattli/NAisParser) is an NMEA marine Automatic Identification
 System (AIS) [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html) decoder for .NET Standard. Written in F#
 using [FParsec](http://www.quanttec.com/fparsec/). The main advantage of using a parser combinator
 library such as FParsec, and using an applicative (functor) style is that the implementation looks
