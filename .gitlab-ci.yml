@@ -5,7 +5,7 @@ stages:
   - test
 
 variables:
-  project: "Parser"
+  project: "Source"
   tests: "Tests"
 
 before_script:
