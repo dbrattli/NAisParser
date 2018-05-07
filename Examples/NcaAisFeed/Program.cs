@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 using NAisParser;
 
-namespace Kystverket
+namespace NcaAisFeed
 {
     class Program
     {
@@ -14,10 +14,11 @@ namespace Kystverket
             var port = 5631;
             var server = "153.44.253.27";
             var client = new TcpClient(server, port);
-            var stream = client.GetStream();
             var parser = new Parser();
+
             Stopwatch stopWatch = new Stopwatch();
 
+            var stream = client.GetStream();
             using (StreamReader reader = new StreamReader(stream)) {
                 string line;
 
@@ -26,7 +27,6 @@ namespace Kystverket
                     stopWatch.Start();
                     var result = parser.TryParse(line, out AisResult aisResult);
                     if (!result) continue;
-
                     switch (aisResult.Type)
                     {
                         case 1:
