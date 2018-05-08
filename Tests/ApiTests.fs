@@ -93,7 +93,7 @@ type TestApi () =
         aisResult.Value.Type |> should equal 1
 
     [<Test>]
-    member _this.TestApiParseType1IsSuccess () =
+    member _this.``Test API parse type 1 is success`` () =
         // Arrage
         let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
@@ -107,8 +107,8 @@ type TestApi () =
         // Assert
         result2 |> should be True
         cnbResult.Value.Mmsi |> should equal 257196000
-        cnbResult.Value.Latitude |> should equal 6.4372683333333329
-        cnbResult.Value.Longitude |> should equal 62.692621666666668
+        cnbResult.Value.Latitude |> should equal 62.692621666666668
+        cnbResult.Value.Longitude |> should equal 6.4372683333333329
 
     [<Test>]
     member _this.TestApiParseType5IsSuccess () =
@@ -134,7 +134,7 @@ type TestApi () =
         savResult.Value.Mmsi |> should equal 257234000
 
     [<Test>]
-    member _this.TestApiParseType1ShortThrowsException () =
+    member _this.``Test API parse type 1 with short data throws exception`` () =
         // Arrage
         let input = "!BSVDM,1,1,,A,1,0*16";
         let mutable aisResult = ref Ais.defaultAisResult
