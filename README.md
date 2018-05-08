@@ -55,7 +55,7 @@ of type 5 you call `TryParse` with an `out` parameter of type `MessageType5`.
 
 ```c#
 var result = parser.TryParse(aisResult, out MessageType123 type123Result);
-````
+```
 
 If result is `true` then you have a valid `MessageType123` such as:
 
@@ -76,7 +76,15 @@ If result is `true` then you have a valid `MessageType123` such as:
 
 Se below for a full example. Enjoy!
 
+## Dependencies ##
+
+* .NETStandard 1.6
+* FParsec (>= 1.0.3)
+* FSharp.Core (>= 4.3.4)
+
 ## Install ##
+
+NAisParser is available as a [NuGet package](https://www.nuget.org/packages/NAisParser/).
 
 ```cli
 dotnet add package NAisParser
