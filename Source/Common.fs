@@ -4,7 +4,7 @@ open System
 open FParsec
 
 type NavigationStatus =
-    | UnderWayUsingEngine=0
+    | UnderWayUsingEngine = 0
     | AtAnchor = 1
     | NotUnderCommand = 2
     | RestrictedManoeuverability = 3
@@ -74,6 +74,7 @@ type ManeuverIndicator =
 
 // Common Navigation Block
 type MessageType123 = {
+    Type: byte;
     Repeat: byte;
     Mmsi: int;
     Status: NavigationStatus;
@@ -124,15 +125,13 @@ module Common =
     // Allowed characters in payload
     let allowedChars = List.map char [48..119]
 
-    let toPaddedBinary' (i: int) =
-        Convert.ToString (i, 2) |> int |> sprintf "%06d"
-
     let toPaddedBinary (i: int) =
+        // Convert.ToString (i, 2) |> int |> sprintf "%06d"
         let str = Convert.ToString (i, 2)
         let pad = String.replicate (6-str.Length) "0"
         pad + str
 
-    let char2int chr =
+    let char2int (chr: char) =
         let value = int chr
         if value > 40 then
             let n = value - 48
@@ -149,10 +148,13 @@ module Common =
 
         String.concat "" binList
 
-    let parseType : Parser<_> =
-        anyOf allowedChars
-        |>> (char2int >> toPaddedBinary)
-        |>> fun x -> Convert.ToByte(x, 2) // Map back to byte
+    let parseType (type': string) =
+        pstring type'
+        |>> fun x -> Convert.ToByte(x, 2)
+
+    let parseType3 (type1: string) (type2: string) (type3: string)=
+        pstring type1 <|> pstring type2 <|> pstring type3
+        |>> fun x -> Convert.ToByte(x, 2)
 
     let parseRepeat = Core.parseUint2
 

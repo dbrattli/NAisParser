@@ -5,9 +5,10 @@ open FsUnit
 open FParsec
 
 open NAisParser
+open NAisParser.Ais
 
 [<TestClass>]
-type TestClassType123 () =
+type TestClassType4 () =
 
     [<SetUp>]
     member _this.Setup () =
@@ -16,7 +17,7 @@ type TestClassType123 () =
     [<Test>]
     member _this.TestParseType1MessageIsSuccesss () =
         // Arrage
-        let input = "!BSVDM,1,1,,A,13mAwp001m0MMrjSoomG6mWT0<1h,0*16"
+        let input = "!AIVDM,1,1,,A,400TcdiuiT7VDR>3nIfr6>i00000,0*78"
 
         // Act
         let result = run Ais.aisParser input
@@ -28,6 +29,6 @@ type TestClassType123 () =
             | Failure (a, b, c) -> Failure(a, b, c)
 
         // Assert
-        Ais.isSuccess(result) |> should be True
-        Ais.isSuccess(result2) |> should be True
+        isSuccess(result) |> should be True
+        isSuccess(result2) |> should be False
 

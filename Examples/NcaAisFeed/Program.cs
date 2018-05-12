@@ -25,8 +25,10 @@ namespace NcaAisFeed
                 while ((line = reader.ReadLine()) != null) {
                     stopWatch.Reset();
                     stopWatch.Start();
+
                     var result = parser.TryParse(line, out AisResult aisResult);
                     if (!result) continue;
+
                     switch (aisResult.Type)
                     {
                         case 1:

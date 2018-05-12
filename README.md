@@ -2,12 +2,13 @@
 
 ![coverage](https://gitlab.com/dbrattli/AisParser/badges/master/coverage.svg)
 
-[NAisParser](https://gitlab.com/dbrattli/NAisParser) is an NMEA marine Automatic Identification
-System (AIS) [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html) decoder for .NET Standard. Written in F#
-using [FParsec](http://www.quanttec.com/fparsec/). The main advantage of using a parser combinator
-library such as FParsec, and using an applicative (functor) style is that the implementation looks
-very similar to the specification, thus the code is clean, and easy to extend and validate against
-the specification.
+[NAisParser](https://gitlab.com/dbrattli/NAisParser) is a marine Automatic Identification
+System (AIS) [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html) NMEA message decoder for .NET Standard.
+
+The library is Written in F# using [FParsec](http://www.quanttec.com/fparsec/). The main advantage of
+using a parser combinator library such as FParsec, and using an applicative (functor) style is that
+the implementation looks very similar to the specification, thus the code is clean, and easy to extend
+and validate against the specification.
 
 Currently parses:
 
@@ -49,7 +50,7 @@ var result2 = parser.TryParse(line2, out AisResult aisResult); // Returns true
 If an error occurs while parsing `TryParse` will raise an `ArgumentException`.
 
 In the second stage you parse the AIS payload data depending on the type of message. The type of
-message is available in the 'Type' property of a valid `AisResult` from stage 1. To parse a message
+message is available in the `Type` property of a valid `AisResult` from stage 1. To parse a message
 of type 1 you call `TryParse` with an `out` parameter of type `MessageType123`. To parse a message
 of type 5 you call `TryParse` with an `out` parameter of type `MessageType5`.
 

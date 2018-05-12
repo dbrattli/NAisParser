@@ -112,8 +112,11 @@ module Type5 =
 
     let parseDte = Core.parseBits 1 |>> fun x -> Convert.ToByte(x, 2) = 1uy
 
+    let parseType5 = Common.parseType "000101"
+
     let parseMessageType5: Parser<MessageType> =
         preturn messageType5
+         *> parseType5
         <*> Common.parseRepeat
         <*> Common.parseMmsi
         <*> parseVersion

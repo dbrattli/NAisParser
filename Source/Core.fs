@@ -44,7 +44,7 @@ module Core =
         | "001110" -> "N" | "011110" -> "^"  | "101110" -> "."  | "111110" -> ">"
         | "001111" -> "O" | "011111" -> "_"  | "101111" -> "/"  | _        -> "?"
 
-    let inline parseAscii count =
+    let parseAscii count =
         let chars = count / 6
 
         let reducer x y =
@@ -57,16 +57,12 @@ module Core =
 
         ps |>> fun x -> x.Trim([| ' '; '@'|])
 
-    let inline apply' pf pa =
-        pf >>= fun f ->
-            pa >>= fun a ->
-                preturn (f a)
-
     let inline apply pf pa =
+        // pf >>= fun f -> pa >>= fun a -> preturn (f a)
         pf >>= fun f -> pa |>> f
 
     let inline (<*>) f a = apply f a
 
-    let inline ( *>) x y = x >>. y
+    let inline ( *>) pf pa = pa >>. pf
 
-    let inline (<* ) x y = x .>> y
+    let inline (<* ) pf pa = pf .>> pa

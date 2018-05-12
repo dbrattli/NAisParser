@@ -5,6 +5,7 @@
   <ItemGroup>
     <Compile Include="AisTests.fs" />
     <Compile Include="Type123Tests.fs" />
+    <Compile Include="Type4Tests.fs" />
     <Compile Include="Type5Tests.fs" />
     <Compile Include="ApiTests.fs" />
     <Compile Include="Program.fs" />

@@ -27,7 +27,7 @@ type public Parser() =
     /// <exception cref="System.ArgumentException">Thrown if the data
     /// packet is invalid and parsing of the packet failed.
     /// </exception>
-    member public this.TryParse(input: String, [<Out>] result : AisResult byref) : bool =
+    member public _this.TryParse(input: String, [<Out>] result : AisResult byref) : bool =
         let res = run aisParser input
 
         match res with
@@ -40,7 +40,7 @@ type public Parser() =
                 let fragment = fragments |> Seq.reduce defragment
                 match fragment with
                 | Success (c, _, _) ->
-                    result <- { c with Type = byte c.Payload.[0]; Payload = List.tail c.Payload }
+                    result <- { c with Type = byte c.Payload.[0]; Payload = c.Payload }
                     fragments.Clear()
                     true
                 | Failure (error, _, _)  ->
@@ -64,7 +64,7 @@ type public Parser() =
     /// payload is invalid and parsing of the packet failed.
     /// </exception>
 
-    member public this.TryParse(input: AisResult, [<Out>] result : MessageType123 byref) : bool =
+    member public _this.TryParse(input: AisResult, [<Out>] result : MessageType123 byref) : bool =
         let binaryString = Common.intListToBinaryString input.Payload
         let res = run Type123.parseMessageType123 binaryString
 
@@ -95,7 +95,7 @@ type public Parser() =
     /// payload is invalid and parsing of the packet failed.
     /// </exception>
 
-    member public this.TryParse(input: AisResult, [<Out>] result : MessageType5 byref) : bool =
+    member public _this.TryParse(input: AisResult, [<Out>] result : MessageType5 byref) : bool =
         let binaryString = Common.intListToBinaryString input.Payload
         let res = run Type5.parseMessageType5 binaryString
 

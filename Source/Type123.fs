@@ -7,9 +7,10 @@ open NAisParser.Core
 
 
 module Type123 =
-    let messageType123 repeat mmsi status turn
+    let messageType123 type' repeat mmsi status turn
         speed accuracy lon lat course heading second maneuver: MessageType123=
         {
+            Type = type'
             Repeat = repeat;
             Mmsi = mmsi;
             Status = status;
@@ -25,6 +26,7 @@ module Type123 =
         }
 
     let defaultMessageType123: MessageType123= {
+        Type = 0uy;
         Repeat = 0uy;
         Mmsi = 0;
         Status = NavigationStatus.NotDefined;
@@ -88,8 +90,12 @@ module Type123 =
             let value = Convert.ToInt32(x, 2)
             enum<ManeuverIndicator>(value)
 
+    let parseType123  : Parser<_> =
+        Common.parseType3 "000001" "000010" "000011"
+
     let parseMessageType123: Parser<_> =
         preturn messageType123
+        <*> parseType123
         <*> Common.parseRepeat
         <*> Common.parseMmsi
         <*> parseStatus
