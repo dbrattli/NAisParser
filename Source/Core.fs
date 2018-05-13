@@ -13,6 +13,10 @@ module Core =
     let inline parseBits count : Parser<_> =
         manyMinMaxSatisfy count count isBit
 
+    let parseBool =
+        parseBits 1
+        |>> fun x -> Convert.ToByte(x, 2) = 1uy
+
     let parseUint2 =
         parseBits 2
         |>> fun x -> Convert.ToByte(x, 2)

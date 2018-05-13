@@ -7,12 +7,13 @@ System (AIS) [AIVDM/AIVDO](http://catb.org/gpsd/AIVDM.html) NMEA message decoder
 
 The library is Written in F# using [FParsec](http://www.quanttec.com/fparsec/). The main advantage of
 using a parser combinator library such as FParsec, and using an applicative (functor) style is that
-the implementation looks very similar to the specification, thus the code is clean, and easy to extend
+the implementation looks very similar to the specification, thus the code is clean, easy to extend
 and validate against the specification.
 
 Currently parses:
 
 * Types 1, 2 and 3: Position Report Class A
+* Type 4: Base Station Report
 * Type 5: Static and Voyage Related Data
 
 The parser works in two stages. In the first stage you parse the outer layer of the AIS data packet:

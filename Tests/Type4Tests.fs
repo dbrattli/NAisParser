@@ -25,10 +25,10 @@ type TestClassType4 () =
         let result2 =
             match result with
             | Success (ais, _, _) ->
-                run Type123.parseMessageType123 (Common.intListToBinaryString ais.Payload)
+                run Type4.parseMessageType4 (Common.intListToBinaryString ais.Payload)
             | Failure (a, b, c) -> Failure(a, b, c)
 
         // Assert
         isSuccess(result) |> should be True
-        isSuccess(result2) |> should be False
+        isSuccess(result2) |> should be True
 

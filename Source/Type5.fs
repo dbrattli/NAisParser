@@ -43,7 +43,7 @@ module Type5 =
         ToStern = 0;
         ToPort = 0;
         ToStarBoard = 0;
-        Epfd = EpdfFixType.Undefined;
+        Epfd = EpfdFixType.Undefined;
         Month = 0;
         Day = 0;
         Hour = 24;
@@ -83,13 +83,6 @@ module Type5 =
 
     let parseToStarboard = parseToPort
 
-    let parseEpdf =
-        Core.parseBits 4
-        |>> (fun x ->
-            let value = Convert.ToInt32(x, 2)
-            enum<EpdfFixType>(value)
-        )
-
     let parseMonth =
         Core.parseBits 4
         |>> fun x -> Convert.ToInt32(x, 2)
@@ -110,9 +103,9 @@ module Type5 =
 
     let parseDestination = Core.parseAscii 120
 
-    let parseDte = Core.parseBits 1 |>> fun x -> Convert.ToByte(x, 2) = 1uy
+    let parseDte = Core.parseBool
 
-    let parseType5 = Common.parseType "000101"
+    let parseType5 = Common.parseType <| Common.toPaddedBinary 5
 
     let parseMessageType5: Parser<MessageType> =
         preturn messageType5
@@ -128,7 +121,7 @@ module Type5 =
         <*> parseToStern
         <*> parseToPort
         <*> parseToStarboard
-        <*> parseEpdf
+        <*> Common.parseEpfd
         <*> parseMonth
         <*> parseDay
         <*> parseHour

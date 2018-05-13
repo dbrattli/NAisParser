@@ -12,6 +12,7 @@
     <Compile Include="Core.fs" />
     <Compile Include="Common.fs" />
     <Compile Include="Type123.fs" />
+    <Compile Include="Type4.fs" />
     <Compile Include="Type5.fs" />
     <Compile Include="Ais.fs" />
     <Compile Include="Api.fs" />

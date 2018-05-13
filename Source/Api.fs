@@ -80,6 +80,37 @@ type public Parser() =
             raise (System.ArgumentException(error))
 
     /// <summary>
+    /// Parses an AIS data packet inner layer of message type 4.
+    /// This is the second stage of parsing a VDM/VDO data packet.
+    /// </summary>
+    /// <param name="input">An AisResult to parse the payload of.</param>
+    /// <param name="result">
+    /// A MessageType5 that will be set if the method returns true.
+    /// </param>
+    /// <returns>
+    /// True if parsing of the packet completed. False if this is not
+    /// a message of type 4.
+    /// </returns>
+    /// <exception cref="System.ArgumentException">Thrown if the data
+    /// payload is invalid and parsing of the packet failed.
+    /// </exception>
+
+    member public _this.TryParse(input: AisResult, [<Out>] result : MessageType4 byref) : bool =
+        let binaryString = Common.intListToBinaryString input.Payload
+        let res = run Type4.parseMessageType4 binaryString
+
+        match res with
+        | Success (message, _, _) ->
+            match message with
+            | Type4 cnb ->
+                result <- cnb
+                true
+            | _ ->
+                false
+        | Failure (error, _, _)  ->
+            raise (System.ArgumentException(error))
+
+    /// <summary>
     /// Parses an AIS data packet inner layer of message type 5.
     /// This is the second stage of parsing a VDM/VDO data packet.
     /// </summary>

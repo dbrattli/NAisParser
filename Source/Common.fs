@@ -16,7 +16,7 @@ type NavigationStatus =
     | AisSartIsActive = 14
     | NotDefined  = 15
 
-type EpdfFixType =
+type EpfdFixType =
     | Undefined = 0
     | Gps = 1
     | Glonass = 2
@@ -80,13 +80,33 @@ type MessageType123 = {
     Status: NavigationStatus;
     RateOfTurn: float;
     SpeedOverGround: int;
-    PositionAccuracy: int;
+    PositionAccuracy: bool;
     Longitude: float;
     Latitude: float;
     CourseOverGround: float;
     TrueHeading: int;
     TimeStamp: int;
     ManeuverIndicator: ManeuverIndicator;
+    RaimFlag: bool;
+    RadioStatus: int
+}
+
+// Base Station Report
+type MessageType4 = {
+    Repeat: byte;
+    Mmsi: int;
+    Year: int;
+    Month: int;
+    Day: int;
+    Hour: int;
+    Minute: int;
+    Second: int;
+    FixQuality: bool;
+    Longitude: float;
+    Latitude: float;
+    Epfd: EpfdFixType;
+    RaimFlag: bool;
+    RadioStatus: int
 }
 
 // Static And Voyage Related Data
@@ -102,7 +122,7 @@ type MessageType5 = {
     ToStern: int;
     ToPort: int;
     ToStarBoard: int;
-    Epfd: EpdfFixType;
+    Epfd: EpfdFixType;
     Month: int;
     Day: int;
     Hour: int;
@@ -119,6 +139,7 @@ type BaseStationReport = {
 
 type MessageType =
     | Type123 of MessageType123
+    | Type4 of MessageType4
     | Type5 of MessageType5
 
 module Common =
@@ -152,17 +173,41 @@ module Common =
         pstring type'
         |>> fun x -> Convert.ToByte(x, 2)
 
-    let parseType3 (type1: string) (type2: string) (type3: string)=
-        pstring type1 <|> pstring type2 <|> pstring type3
+    let parseType3 (type1: string) (type2: string) (type3: string) =
+        pstring type1
+        <|> pstring type2
+        <|> pstring type3
         |>> fun x -> Convert.ToByte(x, 2)
 
     let parseRepeat = Core.parseUint2
 
     let parseMmsi = Core.parseUint30
 
+    let parseLongitude =
+        Core.parseBits 28
+        |>> fun x -> (String.replicate 5 x.[..0]) + x.[1..]
+        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> float(x) / 600000.0
+
+    let parseLatitude =
+        Core.parseBits 27
+        |>> fun x -> (String.replicate 6 x.[..0]) + x.[1..]
+        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> float(x) / 600000.0
+
     let parseEpfd =
         Core.parseBits 4
         |>> (fun x ->
             let value = Convert.ToInt32(x, 2)
-            enum<EpdfFixType>(value)
+            enum<EpfdFixType>(value)
         )
+
+    let parseSpare =
+        Core.parseBits 3
+
+    let parseRaimFlag =
+        Core.parseBool
+
+    let parseRadioStatus =
+        Core.parseBits 19
+        |>> fun x -> Convert.ToInt32(x, 2)

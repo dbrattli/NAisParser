@@ -172,3 +172,30 @@ type TestApi () =
 
         // Assert
         result1 |> should be True
+
+    [<Test>]
+    member _this.``Test API parse type 4 is success`` () =
+        // Arrage
+        let input = "!AIVDM,1,1,,A,400TcdiuiT7VDR>3nIfr6>i00000,0*78";
+        let mutable aisResult = ref Ais.defaultAisResult
+        let mutable cnbResult = ref Type4.defaultMessageType4
+        let parser = Parser()
+
+        // Act
+        let result1 = parser.TryParse(input, aisResult)
+        let result2 = parser.TryParse(aisResult.Value, cnbResult)
+
+        // Assert
+        result2 |> should be True
+        cnbResult.Value.Mmsi |> should equal 601011
+        cnbResult.Value.Year |> should equal 2012
+        cnbResult.Value.Month |> should equal 6
+        cnbResult.Value.Day |> should equal 8
+        cnbResult.Value.Hour |> should equal 7
+        cnbResult.Value.Minute |> should equal 38
+        cnbResult.Value.Second |> should equal 20
+        cnbResult.Value.FixQuality |> should equal true
+        cnbResult.Value.Latitude |> should equal 31.033513333333332
+        cnbResult.Value.Longitude |> should equal -29.870835
+        cnbResult.Value.Epfd |> should equal EpfdFixType.Gps
+        cnbResult.Value.RaimFlag |> should equal false

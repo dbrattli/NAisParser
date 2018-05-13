@@ -7,8 +7,8 @@ open NAisParser.Core
 
 
 module Type123 =
-    let messageType123 type' repeat mmsi status turn
-        speed accuracy lon lat course heading second maneuver: MessageType123=
+    let messageType123 type' repeat mmsi status turn speed accuracy lon
+        lat course heading second maneuver raim radio: MessageType123=
         {
             Type = type'
             Repeat = repeat;
@@ -23,6 +23,8 @@ module Type123 =
             TrueHeading = heading;
             TimeStamp = second;
             ManeuverIndicator = maneuver;
+            RaimFlag = raim;
+            RadioStatus = radio;
         }
 
     let defaultMessageType123: MessageType123= {
@@ -32,13 +34,15 @@ module Type123 =
         Status = NavigationStatus.NotDefined;
         RateOfTurn = 128.0;
         SpeedOverGround = 0;
-        PositionAccuracy = 0;
+        PositionAccuracy = false;
         Longitude = 181.0;
         Latitude = 91.0;
         CourseOverGround = 0.0;
         TrueHeading = 511;
         TimeStamp = 0;
         ManeuverIndicator = ManeuverIndicator.NoSpecialManeuver;
+        RaimFlag = false;
+        RadioStatus = 0;
     }
 
     let parseRateOfTurn =
@@ -51,18 +55,7 @@ module Type123 =
         |>> fun x -> Convert.ToInt32(x, 2)
 
     let parsePositionAccuracy =
-        Core.parseBits 1
-        |>> fun x -> Convert.ToInt32(x, 2)
-
-    let parseLongitude =
-        Core.parseBits 28
-        |>> fun x -> Convert.ToInt32(x, 2)
-        |>> fun x -> float(x) / 600000.0
-
-    let parseLatitude =
-        Core.parseBits 27
-        |>> fun x -> Convert.ToInt32(x, 2)
-        |>> fun x -> float(x) / 600000.0
+        Core.parseBool
 
     let parseCourseOverGround =
         Core.parseBits 12
@@ -91,7 +84,8 @@ module Type123 =
             enum<ManeuverIndicator>(value)
 
     let parseType123  : Parser<_> =
-        Common.parseType3 "000001" "000010" "000011"
+        // A little repetitive, but better to do it here at declaration time
+        Common.parseType3 (Common.toPaddedBinary 1)  (Common.toPaddedBinary 2) (Common.toPaddedBinary  3)
 
     let parseMessageType123: Parser<_> =
         preturn messageType123
@@ -102,10 +96,13 @@ module Type123 =
         <*> parseRateOfTurn
         <*> parseSpeedOverGround
         <*> parsePositionAccuracy
-        <*> parseLongitude
-        <*> parseLatitude
+        <*> Common.parseLongitude
+        <*> Common.parseLatitude
         <*> parseCourseOverGround
         <*> parseTrueHeading
         <*> parseTimeStamp
         <*> parseManeuverIndicator
+        <*  Common.parseSpare
+        <*> Common.parseRaimFlag
+        <*> Common.parseRadioStatus
         |>> Type123
