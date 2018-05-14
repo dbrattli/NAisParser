@@ -185,13 +185,13 @@ module Common =
 
     let parseLongitude =
         Core.parseBits 28
-        |>> fun x -> (String.replicate 5 x.[..0]) + x.[1..]
+        |>> fun x -> (String.replicate 5 x.[..0]) + x.[1..] // Expand to signed 32 bits
         |>> fun x -> Convert.ToInt32(x, 2)
         |>> fun x -> float(x) / 600000.0
 
     let parseLatitude =
         Core.parseBits 27
-        |>> fun x -> (String.replicate 6 x.[..0]) + x.[1..]
+        |>> fun x -> (String.replicate 6 x.[..0]) + x.[1..] // Expand to signed 32 bits
         |>> fun x -> Convert.ToInt32(x, 2)
         |>> fun x -> float(x) / 600000.0
 
