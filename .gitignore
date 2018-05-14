@@ -5,3 +5,4 @@ coverage.info
 **/obj/
 coverage.xml
 coverage.json
+packages

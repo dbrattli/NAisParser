@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6</TargetFrameworks>
     <PackageId>NAisParser</PackageId>
@@ -7,7 +7,6 @@
     <Authors>Dag Brattli</Authors>
     <Company>Dag Labs</Company>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="Core.fs" />
     <Compile Include="Common.fs" />
@@ -17,9 +16,5 @@
     <Compile Include="Ais.fs" />
     <Compile Include="Api.fs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FParsec" Version="1.0.3" />
-  </ItemGroup>
-
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
