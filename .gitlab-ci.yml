@@ -1,4 +1,4 @@
-image: fsharp:latest
+image: fsharp:netcore
 
 stages:
   - build
