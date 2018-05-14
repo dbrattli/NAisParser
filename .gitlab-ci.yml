@@ -1,4 +1,4 @@
-image: mono:latest
+image: fsharp:latest
 
 stages:
   - build
