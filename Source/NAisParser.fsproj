@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6</TargetFrameworks>
     <PackageId>NAisParser</PackageId>
-    <Version>0.1.2</Version>
+    <Version>0.2.0</Version>
     <Authors>Dag Brattli</Authors>
     <Company>Dag Labs</Company>
   </PropertyGroup>
