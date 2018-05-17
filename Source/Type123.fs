@@ -85,7 +85,7 @@ module Type123 =
 
     let parseType123  : Parser<_> =
         // A little repetitive, but better to do it here at declaration time
-        Common.parseType3 (Common.toPaddedBinary 1)  (Common.toPaddedBinary 2) (Common.toPaddedBinary  3)
+        Common.parseType3 (Common.toPaddedBinary 1) (Common.toPaddedBinary 2) (Common.toPaddedBinary  3)
 
     let parseMessageType123: Parser<_> =
         preturn messageType123

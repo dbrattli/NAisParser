@@ -68,8 +68,8 @@ If result is `true` then you have a valid `MessageType123` such as:
  RateOfTurn = 0.0;
  SpeedOverGround = 117;
  PositionAccuracy = 0;
- Longitude = 62.69262167;
- Latitude = 6.437268333;
+ Latitude = 62.69262167;
+ Longitude = 6.437268333;
  CourseOverGround = 181.9;
  TrueHeading = 179;
  TimeStamp = 50;
