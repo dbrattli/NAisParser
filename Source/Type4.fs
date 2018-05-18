@@ -1,9 +1,26 @@
 namespace NAisParser
 
-open System
 open FParsec
 
 open NAisParser.Core
+
+// Base Station Report
+type MessageType4 = {
+    Repeat: byte;
+    Mmsi: int;
+    Year: int;
+    Month: int;
+    Day: int;
+    Hour: int;
+    Minute: int;
+    Second: int;
+    FixQuality: bool;
+    Longitude: float;
+    Latitude: float;
+    Epfd: EpfdFixType;
+    RaimFlag: bool;
+    RadioStatus: int
+}
 
 module Type4 =
     let messageType4 repeat mmsi year month day hour minute second
@@ -42,31 +59,23 @@ module Type4 =
         RadioStatus = 0
         }
 
-    let parseYear =
-        Core.parseBits 14
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseYear = Core.parseIntN 14
 
-    let parseMonth =
-        Core.parseBits 4
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseMonth = Core.parseIntN 4
 
-    let parseDay =
-        Core.parseBits 5
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseDay = Core.parseIntN 5
 
-    let parseHour = parseDay
+    let parseHour = Core.parseIntN 5
 
-    let parseMinute =
-        Core.parseBits 6
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseMinute = Core.parseIntN 6
 
-    let parseSecond = parseMinute
+    let parseSecond = Core.parseIntN 6
 
     let parseFixQuality = Core.parseBool
 
     let parseType4 = Common.parseType <| Common.toPaddedBinary 4
 
-    let parseMessageType4: Parser<MessageType> =
+    let parseMessageType4: Parser<_> =
         preturn messageType4
          *> parseType4
         <*> Common.parseRepeat
@@ -84,5 +93,3 @@ module Type4 =
         <*  Common.parseSpare
         <*> Common.parseRaimFlag
         <*> Common.parseRadioStatus
-
-        |>> Type4

@@ -5,8 +5,27 @@ open FParsec
 
 open NAisParser.Core
 
+// Common Navigation Block
+type MessageType123 = {
+    Type: byte;
+    Repeat: byte;
+    Mmsi: int;
+    Status: NavigationStatus;
+    RateOfTurn: float;
+    SpeedOverGround: int;
+    PositionAccuracy: bool;
+    Longitude: float;
+    Latitude: float;
+    CourseOverGround: float;
+    TrueHeading: int;
+    TimeStamp: int;
+    ManeuverIndicator: ManeuverIndicator;
+    RaimFlag: bool;
+    RadioStatus: int
+}
 
 module Type123 =
+
     let messageType123 type' repeat mmsi status turn speed accuracy lon
         lat course heading second maneuver raim radio: MessageType123=
         {
@@ -50,38 +69,25 @@ module Type123 =
         Core.parseSByte
         |>> fun x -> squareSigned((float x) / 4.733)
 
-    let parseSpeedOverGround =
-        Core.parseBits 10
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseSpeedOverGround = Core.parseIntN 10
 
-    let parsePositionAccuracy =
-        Core.parseBool
+    let parsePositionAccuracy = Core.parseBool
 
     let parseCourseOverGround =
-        Core.parseBits 12
-        |>> fun x -> Convert.ToInt32(x, 2)
+        Core.parseIntN 12
         |>> fun x -> float(x) / 10.0
 
     let parseStatus =
-        Core.parseBits 4
-        |>> (fun x ->
-            let value = Convert.ToInt32(x, 2)
-            enum<NavigationStatus>(value)
-        )
+        Core.parseIntN 4
+        |>> fun x -> enum<NavigationStatus>(x)
 
-    let parseTrueHeading =
-        Core.parseBits 9
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseTrueHeading = Core.parseIntN 9
 
-    let parseTimeStamp =
-        Core.parseBits 6
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseTimeStamp = Core.parseIntN 6
 
     let parseManeuverIndicator =
-        Core.parseBits 2
-        |>> fun x ->
-            let value = Convert.ToInt32(x, 2)
-            enum<ManeuverIndicator>(value)
+        Core.parseIntN 2
+        |>> fun x -> enum<ManeuverIndicator>(x)
 
     let parseType123  : Parser<_> =
         // A little repetitive, but better to do it here at declaration time
@@ -105,4 +111,3 @@ module Type123 =
         <*  Common.parseSpare
         <*> Common.parseRaimFlag
         <*> Common.parseRadioStatus
-        |>> Type123

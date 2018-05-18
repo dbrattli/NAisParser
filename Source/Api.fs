@@ -7,6 +7,10 @@ open System.Runtime.InteropServices //for OutAttribute
 open FParsec
 open NAisParser.Ais
 
+type MessageType =
+    | Type123 of MessageType123
+    | Type4 of MessageType4
+    | Type5 of MessageType5
 
 type public Parser() =
     let fragments = new List<ParserResult<AisResult, unit>>()
@@ -70,12 +74,8 @@ type public Parser() =
 
         match res with
         | Success (message, _, _) ->
-            match message with
-            | Type123 cnb ->
-                result <- cnb
-                true
-            | _ ->
-                false
+            result <- message
+            true
         | Failure (error, _, _)  ->
             raise (System.ArgumentException(error))
 
@@ -88,8 +88,7 @@ type public Parser() =
     /// A MessageType5 that will be set if the method returns true.
     /// </param>
     /// <returns>
-    /// True if parsing of the packet completed. False if this is not
-    /// a message of type 4.
+    /// True if parsing of the packet completed.
     /// </returns>
     /// <exception cref="System.ArgumentException">Thrown if the data
     /// payload is invalid and parsing of the packet failed.
@@ -101,12 +100,8 @@ type public Parser() =
 
         match res with
         | Success (message, _, _) ->
-            match message with
-            | Type4 cnb ->
-                result <- cnb
-                true
-            | _ ->
-                false
+            result <- message
+            true
         | Failure (error, _, _)  ->
             raise (System.ArgumentException(error))
 
@@ -119,8 +114,7 @@ type public Parser() =
     /// A MessageType5 that will be set if the method returns true.
     /// </param>
     /// <returns>
-    /// True if parsing of the packet completed. False if this is not
-    /// a message of type 5.
+    /// True if parsing of the packet completed.
     /// </returns>
     /// <exception cref="System.ArgumentException">Thrown if the data
     /// payload is invalid and parsing of the packet failed.
@@ -132,11 +126,7 @@ type public Parser() =
 
         match res with
         | Success (message, _, _) ->
-            match message with
-            | Type5 cnb ->
-                result <- cnb
-                true
-            | _ ->
-                false
+            result <- message
+            true
         | Failure (error, _, _)  ->
             raise (System.ArgumentException(error))

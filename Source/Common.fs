@@ -72,76 +72,6 @@ type ManeuverIndicator =
     | NoSpecialManeuver = 0
     | SpecialManeuver = 1
 
-// Common Navigation Block
-type MessageType123 = {
-    Type: byte;
-    Repeat: byte;
-    Mmsi: int;
-    Status: NavigationStatus;
-    RateOfTurn: float;
-    SpeedOverGround: int;
-    PositionAccuracy: bool;
-    Longitude: float;
-    Latitude: float;
-    CourseOverGround: float;
-    TrueHeading: int;
-    TimeStamp: int;
-    ManeuverIndicator: ManeuverIndicator;
-    RaimFlag: bool;
-    RadioStatus: int
-}
-
-// Base Station Report
-type MessageType4 = {
-    Repeat: byte;
-    Mmsi: int;
-    Year: int;
-    Month: int;
-    Day: int;
-    Hour: int;
-    Minute: int;
-    Second: int;
-    FixQuality: bool;
-    Longitude: float;
-    Latitude: float;
-    Epfd: EpfdFixType;
-    RaimFlag: bool;
-    RadioStatus: int
-}
-
-// Static And Voyage Related Data
-type MessageType5 = {
-    Repeat: byte;
-    Mmsi: int;
-    Version: byte;
-    ImoNumber: int;
-    CallSign: string;
-    VesselName: string;
-    ShipType: ShipType;
-    ToBow: int;
-    ToStern: int;
-    ToPort: int;
-    ToStarBoard: int;
-    Epfd: EpfdFixType;
-    Month: int;
-    Day: int;
-    Hour: int;
-    Minute: int;
-    Draught: float;
-    Destination: string;
-    Dte: bool;
-}
-
-type BaseStationReport = {
-    Repeat: byte;
-    Mmsi: int;
-}
-
-type MessageType =
-    | Type123 of MessageType123
-    | Type4 of MessageType4
-    | Type5 of MessageType5
-
 module Common =
     // Allowed characters in payload
     let allowedChars = List.map char [48..119]
@@ -179,9 +109,9 @@ module Common =
         <|> pstring type3
         |>> fun x -> Convert.ToByte(x, 2)
 
-    let parseRepeat = Core.parseUint2
+    let parseRepeat = Core.parseByteN 2
 
-    let parseMmsi = Core.parseUint30
+    let parseMmsi = Core.parseIntN 30
 
     let parseLongitude =
         Core.parseBits 28
@@ -196,18 +126,11 @@ module Common =
         |>> fun x -> float(x) / 600000.0
 
     let parseEpfd =
-        Core.parseBits 4
-        |>> (fun x ->
-            let value = Convert.ToInt32(x, 2)
-            enum<EpfdFixType>(value)
-        )
+        Core.parseIntN 4
+        |>> fun x -> enum<EpfdFixType>(x)
 
-    let parseSpare =
-        Core.parseBits 3
+    let parseSpare = Core.parseBits 3
 
-    let parseRaimFlag =
-        Core.parseBool
+    let parseRaimFlag = Core.parseBool
 
-    let parseRadioStatus =
-        Core.parseBits 19
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseRadioStatus = Core.parseIntN 19
