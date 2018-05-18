@@ -1,6 +1,6 @@
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    coverlet.msbuild (1.2)
+    coverlet.msbuild (2.0)
     FParsec (1.0.3)
       FSharp.Core (>= 4.0.0.1) - restriction: >= net40
       FSharp.Core (>= 4.2.3) - restriction: && (< net40) (>= netstandard1.6)
