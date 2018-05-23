@@ -62,7 +62,8 @@ module Core =
         ps |>> fun x -> x.Trim([| ' '; '@'|])
 
     let apply pf pa =
-        // pf >>= fun f -> pa >>= fun a -> preturn (f a)
+        // pf >>= fun f -> pa >>= preturn >> f
+        // pf >>= fun f -> pa >>= f -> preturn f a
         pf >>= fun f -> pa |>> f
 
     let (<*>) f a = apply f a
