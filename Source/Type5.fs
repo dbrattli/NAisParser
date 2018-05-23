@@ -1,9 +1,31 @@
 namespace NAisParser
 
-open System
 open FParsec
 
 open NAisParser.Core
+
+// Static And Voyage Related Data
+type MessageType5 = {
+    Repeat: byte;
+    Mmsi: int;
+    Version: byte;
+    ImoNumber: int;
+    CallSign: string;
+    VesselName: string;
+    ShipType: ShipType;
+    ToBow: int;
+    ToStern: int;
+    ToPort: int;
+    ToStarBoard: int;
+    Epfd: EpfdFixType;
+    Month: int;
+    Day: int;
+    Hour: int;
+    Minute: int;
+    Draught: float;
+    Destination: string;
+    Dte: bool;
+}
 
 module Type5 =
     let messageType5 repeat mmsi version imo
@@ -53,53 +75,37 @@ module Type5 =
         Dte =  false;
     }
 
-    let parseVersion =
-        Core.parseBits 2
-        |>> fun x -> Convert.ToByte(x, 2)
+    let parseVersion = Core.parseByteN 2
 
-    let parseImoNumber =
-        Core.parseBits 30
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseImoNumber = Core.parseIntN 30
 
     let parseShipType =
-        Core.parseBits 8
-        |>> fun x ->
-            let value = Convert.ToInt32(x, 2)
-            enum<ShipType>(value)
+        Core.parseIntN 8
+        |>> fun x -> enum<ShipType>(x)
 
     let parseCallSign = Core.parseAscii 42
 
     let parseVesselName = Core.parseAscii 120
 
-    let parseToBow =
-        Core.parseBits 9
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseToBow = Core.parseIntN 9
 
     let parseToStern = parseToBow
 
-    let parseToPort =
-        Core.parseBits 6
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseToPort = Core.parseIntN 6
 
     let parseToStarboard = parseToPort
 
-    let parseMonth =
-        Core.parseBits 4
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseMonth = Core.parseIntN 4
 
-    let parseDay =
-        Core.parseBits 5
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseDay = Core.parseIntN 5
 
-    let parseHour = parseDay
+    let parseHour = Core.parseIntN 5
 
-    let parseMinute =
-        Core.parseBits 6
-        |>> fun x -> Convert.ToInt32(x, 2)
+    let parseMinute = Core.parseIntN 6
 
     let parseDraught =
-        Core.parseBits 8
-        |>> fun x -> (Convert.ToInt32(x, 2) |> float) / 10.0
+        Core.parseIntN 8
+        |>> fun x -> float x / 10.0
 
     let parseDestination = Core.parseAscii 120
 
@@ -107,7 +113,7 @@ module Type5 =
 
     let parseType5 = Common.parseType <| Common.toPaddedBinary 5
 
-    let parseMessageType5: Parser<MessageType> =
+    let parseMessageType5: Parser<_> =
         preturn messageType5
          *> parseType5
         <*> Common.parseRepeat
@@ -129,5 +135,3 @@ module Type5 =
         <*> parseDraught
         <*> parseDestination
         <*> parseDte
-
-        |>> Type5

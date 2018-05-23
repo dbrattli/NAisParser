@@ -17,13 +17,13 @@ module Core =
         parseBits 1
         |>> fun x -> Convert.ToByte(x, 2) = 1uy
 
-    let parseUint2 =
-        parseBits 2
-        |>> fun x -> Convert.ToByte(x, 2)
-
-    let parseUint30 =
-        parseBits 30
+    let parseIntN bits =
+        parseBits bits
         |>> fun x -> Convert.ToInt32(x, 2)
+
+    let parseByteN bits =
+        parseBits bits
+        |>> fun x -> Convert.ToByte(x, 2)
 
     let parseSByte =
         parseBits 8
