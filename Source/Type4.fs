@@ -23,6 +23,7 @@ type MessageType4 = {
 }
 
 module Type4 =
+    // Constructor. To allow currying through the applicative functor.
     let messageType4 repeat mmsi year month day hour minute second
         accuracy lat lon epfd raim radio
         : MessageType4 =
@@ -57,7 +58,7 @@ module Type4 =
         Epfd = EpfdFixType.Undefined;
         RaimFlag = false;
         RadioStatus = 0
-        }
+    }
 
     let parseYear = Core.parseIntN 14
 

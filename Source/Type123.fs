@@ -25,7 +25,7 @@ type MessageType123 = {
 }
 
 module Type123 =
-
+    // Constructor. To allow currying through the applicative functor.
     let messageType123 type' repeat mmsi status turn speed accuracy lon
         lat course heading second maneuver raim radio: MessageType123=
         {
@@ -46,7 +46,7 @@ module Type123 =
             RadioStatus = radio;
         }
 
-    let defaultMessageType123: MessageType123= {
+    let defaultMessageType123: MessageType123 = {
         Type = 0uy;
         Repeat = 0uy;
         Mmsi = 0;
@@ -65,7 +65,9 @@ module Type123 =
     }
 
     let parseRateOfTurn =
-        let squareSigned x = x * x * float(Math.Sign(float x))
+        let squareSigned x =
+            x * x * float(Math.Sign(float x))
+
         Core.parseSByte
         |>> fun x -> squareSigned((float x) / 4.733)
 

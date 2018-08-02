@@ -28,6 +28,7 @@ type MessageType5 = {
 }
 
 module Type5 =
+    // Constructor. To allow currying through the applicative functor.
     let messageType5 repeat mmsi version imo
         callsign shipname shiptype tobow tostern toport tostarboard epfd
         month day hour minute draught destination dte
@@ -80,8 +81,7 @@ module Type5 =
     let parseImoNumber = Core.parseIntN 30
 
     let parseShipType =
-        Core.parseIntN 8
-        |>> fun x -> enum<ShipType>(x)
+        Core.parseIntN 8 |>> fun x -> enum<ShipType>(x)
 
     let parseCallSign = Core.parseAscii 42
 
@@ -104,8 +104,7 @@ module Type5 =
     let parseMinute = Core.parseIntN 6
 
     let parseDraught =
-        Core.parseIntN 8
-        |>> fun x -> float x / 10.0
+        Core.parseIntN 8 |>> fun x -> float x / 10.0
 
     let parseDestination = Core.parseAscii 120
 
