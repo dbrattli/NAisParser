@@ -86,8 +86,8 @@ module Ais =
 
     let parsePayload : Parser<_> =
         // Parse to string
-        comma >>. many1 (anyOf Common.allowedChars)
-        |>> List.map Common.char2int
+        comma >>. many1 (anyOf Core.allowedChars)
+        |>> List.map Core.char2int
 
     let aisParser : Parser<_> =
         preturn aisResult

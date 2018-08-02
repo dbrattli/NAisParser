@@ -7,6 +7,9 @@ type UserState = unit // doesn't have to be unit, of course
 type Parser<'t> = Parser<'t, UserState>
 
 module Core =
+    // Allowed characters in payload
+    let allowedChars = List.map char [48..119]
+
     let isBit (c: char) =
         uint32 c - uint32 '0' <= uint32 '1' - uint32 '0'
 
@@ -28,6 +31,17 @@ module Core =
     let parseSByte =
         parseBits 8
         |>> fun x -> Convert.ToSByte(x, 2)
+
+    let char2int (chr: char) =
+        let value = int chr
+        if value > 40 then
+            let n = value - 48
+            if n > 40 then
+                n - 8
+            else
+                n
+        else
+            value
 
     let toAscii bits =
         match bits with

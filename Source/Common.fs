@@ -73,25 +73,11 @@ type ManeuverIndicator =
     | SpecialManeuver = 1
 
 module Common =
-    // Allowed characters in payload
-    let allowedChars = List.map char [48..119]
-
     let toPaddedBinary (i: int) =
         // Convert.ToString (i, 2) |> int |> sprintf "%06d"
         let str = Convert.ToString (i, 2)
         let pad = String.replicate (6-str.Length) "0"
         pad + str
-
-    let char2int (chr: char) =
-        let value = int chr
-        if value > 40 then
-            let n = value - 48
-            if n > 40 then
-                n - 8
-            else
-                n
-        else
-            value
 
     /// Payload handling
     let intListToBinaryString intList =
