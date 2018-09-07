@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net471;netstandard1.6</TargetFrameworks>
     <PackageId>NAisParser</PackageId>
     <Version>0.2.0</Version>
     <Authors>Dag Brattli</Authors>
