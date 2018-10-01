@@ -18,19 +18,19 @@ module Core =
 
     let parseBool =
         parseBits 1
-        |>> fun x -> Convert.ToByte(x, 2) = 1uy
+        |>> fun x -> Convert.ToByte (x, 2) = 1uy
 
     let parseIntN bits =
         parseBits bits
-        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> Convert.ToInt32 (x, 2)
 
     let parseByteN bits =
         parseBits bits
-        |>> fun x -> Convert.ToByte(x, 2)
+        |>> fun x -> Convert.ToByte (x, 2)
 
     let parseSByte =
         parseBits 8
-        |>> fun x -> Convert.ToSByte(x, 2)
+        |>> fun x -> Convert.ToSByte (x, 2)
 
     let char2int (chr: char) =
         let value = int chr
@@ -73,7 +73,7 @@ module Core =
             Seq.init chars (fun _ -> parseBits 6 |>> toAscii)
             |> Seq.reduce reducer
 
-        ps |>> fun x -> x.Trim([| ' '; '@'|])
+        ps |>> fun x -> x.Trim ([| ' '; '@'|])
 
     let apply pf pa =
         // pf >>= fun f -> pa >>= preturn >> f

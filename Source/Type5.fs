@@ -6,25 +6,25 @@ open NAisParser.Core
 
 // Static And Voyage Related Data
 type MessageType5 = {
-    Repeat: byte;
-    Mmsi: int;
-    Version: byte;
-    ImoNumber: int;
-    CallSign: string;
-    VesselName: string;
-    ShipType: ShipType;
-    ToBow: int;
-    ToStern: int;
-    ToPort: int;
-    ToStarBoard: int;
-    Epfd: EpfdFixType;
-    Month: int;
-    Day: int;
-    Hour: int;
-    Minute: int;
-    Draught: float;
-    Destination: string;
-    Dte: bool;
+    Repeat: byte
+    Mmsi: int
+    Version: byte
+    ImoNumber: int
+    CallSign: string
+    VesselName: string
+    ShipType: ShipType
+    ToBow: int
+    ToStern: int
+    ToPort: int
+    ToStarBoard: int
+    Epfd: EpfdFixType
+    Month: int
+    Day: int
+    Hour: int
+    Minute: int
+    Draught: float
+    Destination: string
+    Dte: bool
 }
 
 module Type5 =

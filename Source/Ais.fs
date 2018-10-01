@@ -8,36 +8,36 @@ type TalkerId = | AB = 0 | AD = 1 | AI = 2 | AN = 3 | AR = 4 | AS = 5 | AT = 6 |
 type Channel = | A = 0 | B = 1
 
 type AisResult = {
-    Vdm: TalkerId;
-    Count: uint8;
-    Number: uint8;
-    Seq: uint8 option;
-    Channel: Channel;
-    Payload: list<int>;
-    Type: byte;
+    Vdm: TalkerId
+    Count: uint8
+    Number: uint8
+    Seq: uint8 option
+    Channel: Channel
+    Payload: list<int>
+    Type: byte
 }
 
 module Ais =
     // AisResult constructor to enable currying
     let aisResult vdm count number seq channel payload : AisResult =
         {
-            Vdm = vdm;
-            Count = count;
-            Number = number;
-            Seq = seq;
-            Channel = channel;
-            Payload = payload;
-            Type = 0uy;
+            Vdm = vdm
+            Count = count
+            Number = number
+            Seq = seq
+            Channel = channel
+            Payload = payload
+            Type = 0uy
         }
 
     let defaultAisResult : AisResult = {
-        Vdm = TalkerId.AB;
-        Count = 0uy;
-        Number = 0uy;
-        Seq = Some 0uy;
-        Channel = Channel.A;
-        Payload = [];
-        Type = 0uy;
+        Vdm = TalkerId.AB
+        Count = 0uy
+        Number = 0uy
+        Seq = Some 0uy
+        Channel = Channel.A
+        Payload = []
+        Type = 0uy
     }
 
     let isSuccess result =
@@ -56,8 +56,8 @@ module Ais =
                         Success ({ p with Payload = payload }, state, pos)
                     else
                         curr
-                | Failure (a, b, c) -> Failure(a, b, c)
-            | Failure (a, b, c) -> Failure(a, b, c)
+                | Failure (a, b, c) -> Failure (a, b, c)
+            | Failure (a, b, c) -> Failure (a, b, c)
         result
 
     let parseVdm : Parser<_> =

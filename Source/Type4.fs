@@ -6,19 +6,19 @@ open NAisParser.Core
 
 // Base Station Report
 type MessageType4 = {
-    Repeat: byte;
-    Mmsi: int;
-    Year: int;
-    Month: int;
-    Day: int;
-    Hour: int;
-    Minute: int;
-    Second: int;
-    FixQuality: bool;
-    Longitude: float;
-    Latitude: float;
-    Epfd: EpfdFixType;
-    RaimFlag: bool;
+    Repeat: byte
+    Mmsi: int
+    Year: int
+    Month: int
+    Day: int
+    Hour: int
+    Minute: int
+    Second: int
+    FixQuality: bool
+    Longitude: float
+    Latitude: float
+    Epfd: EpfdFixType
+    RaimFlag: bool
     RadioStatus: int
 }
 
@@ -28,35 +28,35 @@ module Type4 =
         accuracy lat lon epfd raim radio
         : MessageType4 =
         {
-            Repeat = repeat;
-            Mmsi = mmsi;
-            Year = year;
-            Month = month;
-            Day = day;
-            Hour = hour;
-            Minute = minute;
-            Second = second;
-            FixQuality = accuracy;
-            Longitude = lon;
-            Latitude = lat;
+            Repeat = repeat
+            Mmsi = mmsi
+            Year = year
+            Month = month
+            Day = day
+            Hour = hour
+            Minute = minute
+            Second = second
+            FixQuality = accuracy
+            Longitude = lon
+            Latitude = lat
             Epfd = epfd
-            RaimFlag = raim;
-            RadioStatus = radio;
+            RaimFlag = raim
+            RadioStatus = radio
         }
     let defaultMessageType4: MessageType4 = {
-        Repeat = 0uy;
-        Mmsi = 0;
-        Year = 0;
-        Month = 0;
-        Day = 0;
-        Hour = 24;
-        Minute = 60;
-        Second = 60;
-        FixQuality = false;
-        Longitude = 181.0;
-        Latitude = 91.0;
-        Epfd = EpfdFixType.Undefined;
-        RaimFlag = false;
+        Repeat = 0uy
+        Mmsi = 0
+        Year = 0
+        Month = 0
+        Day = 0
+        Hour = 24
+        Minute = 60
+        Second = 60
+        FixQuality = false
+        Longitude = 181.0
+        Latitude = 91.0
+        Epfd = EpfdFixType.Undefined
+        RaimFlag = false
         RadioStatus = 0
     }
 

@@ -87,13 +87,13 @@ module Common =
 
     let parseType (type': string) =
         pstring type'
-        |>> fun x -> Convert.ToByte(x, 2)
+        |>> fun x -> Convert.ToByte (x, 2)
 
     let parseType3 (type1: string) (type2: string) (type3: string) =
         pstring type1
         <|> pstring type2
         <|> pstring type3
-        |>> fun x -> Convert.ToByte(x, 2)
+        |>> fun x -> Convert.ToByte (x, 2)
 
     let parseRepeat = Core.parseByteN 2
 
@@ -102,13 +102,13 @@ module Common =
     let parseLongitude =
         Core.parseBits 28
         |>> fun x -> (String.replicate 5 x.[..0]) + x.[1..] // Expand to signed 32 bits
-        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> Convert.ToInt32 (x, 2)
         |>> fun x -> float(x) / 600000.0
 
     let parseLatitude =
         Core.parseBits 27
         |>> fun x -> (String.replicate 6 x.[..0]) + x.[1..] // Expand to signed 32 bits
-        |>> fun x -> Convert.ToInt32(x, 2)
+        |>> fun x -> Convert.ToInt32 (x, 2)
         |>> fun x -> float(x) / 600000.0
 
     let parseEpfd =
